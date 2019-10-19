@@ -1,0 +1,30 @@
+{
+  "manifest_version": 2,
+  "name": "YouTube Player",
+  "author": "Thomas Smith",
+  "version": "0.1",
+  "description": "Allows playing YouTube playlists without logging in",
+  "homepage_url": "https://github.com/thomasebsmith/yt-player",
+  "browser_specific_settings": {
+    "gecko": {
+      "id": "ytPlayer@thomasebsmith.github.io",
+      "strict_min_version": "45.0"
+    }
+  },
+  "icons": {
+    "48": "icons/48.png"
+  },
+  "permissions": [
+    "https://www.youtube.com/*",
+    "storage",
+    "tabs"
+  ],
+  "background": {
+    "scripts": ["background.js"]
+  },
+  "browser_action": {
+    "default_icon": "icons/32.png",
+    "default_title": "YouTube Player",
+    "default_popup": "popup.html"
+  }
+}
