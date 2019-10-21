@@ -13,11 +13,12 @@
       const randomIndex = Math.floor(Math.random() * (i + 1));
       swap(array, i, randomIndex);
     }
+    return array;
   };
 
   const retrievePlaylist = () => {
     return area.get("playlist").then(({playlist}) => {
-      playlist || []
+      return playlist || [];
     });
   };
 
@@ -27,12 +28,14 @@
     });
   };
   const addToPlaylist = (youtubeID) => {
-    playlist.push(youtubeID);
-    return updateStorage();
+    return getPlaylist().then((playlist) => {
+      playlist.push(youtubeID);
+      return updateStorage();
+    });
   };
   const getPlaylist = () => {
     if (playlist === null) {
-      return retrivePlaylist().then((retrived) => {
+      return retrievePlaylist().then((retrieved) => {
         playlist = retrieved;
         return playlist;
       });
@@ -40,7 +43,9 @@
     return Promise.resolve(playlist);
   };
   const getShuffledPlaylist = () => {
-    return shuffled(getPlaylist());
+    return getPlaylist().then((playlist) => {
+      return shuffled(playlist);
+    });
   };
 
   global.storage = {

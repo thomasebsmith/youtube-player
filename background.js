@@ -6,24 +6,37 @@ const nextInPlaylist = (tabId, forceNow = false) => {
   return browser.tabs.executeScript(tabId, {
     file: "/contentScript.js"
   }).then(_ => {
+    const playlist = currentPlaylists[tabId];
     browser.tabs.sendMessage(tabId, {
-      playNext: playlist[currentPlaylists[tabId]++],
+      playNext: playlist.list[playlist.index++],
       forceNow: forceNow
     });
-    currentPlaylists[tabId] %= playlist.length;
+    playlist.index %= playlist.list.length;
   });
 };
 
-browser.browserAction.onClicked.addListener((tab) => {
-  const url = new URL(tab.url);
-  if (url.origin === "https://www.youtube.com") {
-    currentPlaylists[tab.id] = 0;
-    nextInPlaylist(tab.id, true);
-  }
+browser.menus.create({
+  documentUrlPatterns: ["https://www.youtube.com/*"],
+  icons: {
+    "16": "icons/16.png",
+    "32": "icons/32.png"
+  },
+  onclick: (_, tab) => {
+    storage.getShuffledPlaylist().then((list) => {
+      if (list.length > 0) {
+        currentPlaylists[tab.id] = {
+          list: list,
+          index: 0
+        };
+        nextInPlaylist(tab.id, true);
+      }
+    });
+  },
+  title: "Start playlist"
 });
 
 browser.tabs.onUpdated.addListener((tabId, changeInfo, tab) => {
-  if (changeInfo.url && currentPlaylists[tabId] !== undefined) {
+  if (changeInfo.url && currentPlaylists[tabId]) {
     nextInPlaylist(tabId);
   }
 }, {

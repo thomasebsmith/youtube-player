@@ -8,14 +8,16 @@
   "browser_specific_settings": {
     "gecko": {
       "id": "ytPlayer@thomasebsmith.github.io",
-      "strict_min_version": "45.0"
+      "strict_min_version": "55.0"
     }
   },
   "icons": {
     "48": "icons/48.png"
   },
   "permissions": [
+    "activeTab",
     "https://www.youtube.com/*",
+    "menus",
     "storage",
     "tabs"
   ],
