@@ -1,5 +1,6 @@
 (function(global) {
-  const area = browser.storage.local;
+  const name = "local";
+  const area = browser.storage[name];
   let playlist = null;
 
   const swap = (array, i, j) => {
@@ -21,7 +22,11 @@
       return playlist || [];
     });
   };
-
+  browser.storage.onChanged.addListener((changes, areaName) => {
+    if (changes["playlist"] && areaName === name) {
+      playlist = changes["playlist"].newValue;
+    }
+  });
   const updateStorage = () => {
     return area.set({
       playlist: playlist
