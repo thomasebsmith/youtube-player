@@ -13,3 +13,8 @@ on the add-on icon to bring up a small popup.
 ## Installation
 YouTube Player is not yet available on addons.mozilla.org. To use it,
 enable developer mode and load the add-on manually in about:debugging.
+
+## Version History
+##### v0.1 (in development)
+ - Ability to create YouTube playlists
+ - Ability to play YouTube playlists
