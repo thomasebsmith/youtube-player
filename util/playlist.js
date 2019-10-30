@@ -7,6 +7,9 @@
     videoAt(index) {
       return this.list[index];
     }
+    static fromObject(obj) {
+      return new Playlist(obj.list.map(global.Video.fromObject));
+    }
   }
   class PlaylistStatus {
     // REQUIRES: indices.length <= playlist.list.length

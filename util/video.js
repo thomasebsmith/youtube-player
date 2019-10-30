@@ -14,6 +14,9 @@
     getURL() {
       return "https://www.youtube.com/watch?v=" + this.id;
     }
+    static fromObject(obj) {
+      return new Video(obj.name, obj.description, obj.id);
+    }
   }
 
   global.Video = Video;
