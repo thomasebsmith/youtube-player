@@ -10,6 +10,11 @@
     static fromObject(obj) {
       return new Playlist(obj.list.map(global.Video.fromObject));
     }
+    toObject() {
+      return {
+        list: this.list
+      };
+    }
   }
   class PlaylistStatus {
     // REQUIRES: indices.length <= playlist.list.length

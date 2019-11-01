@@ -17,6 +17,13 @@
     static fromObject(obj) {
       return new Video(obj.name, obj.description, obj.id);
     }
+    toObject() {
+      return {
+        name: name,
+        description: description,
+        id: id
+      };
+    }
   }
 
   global.Video = Video;
