@@ -1,5 +1,3 @@
-let playlist = [];
-
 let currentPlaylists = Object.create(null);
 
 const nextInPlaylist = (tabId, forceNow = false) => {
@@ -8,10 +6,10 @@ const nextInPlaylist = (tabId, forceNow = false) => {
   }).then(_ => {
     const playlist = currentPlaylists[tabId];
     browser.tabs.sendMessage(tabId, {
-      playNext: playlist.list[playlist.index++],
+      playNext: playlist.currentVideo(),
       forceNow: forceNow
     });
-    playlist.index %= playlist.list.length;
+    playlist.nextVideo();
   });
 };
 
@@ -22,12 +20,9 @@ browser.menus.create({
     "32": "icons/32.png"
   },
   onclick: (_, tab) => {
-    storage.getShuffledPlaylist().then((list) => {
-      if (list.length > 0) {
-        currentPlaylists[tab.id] = {
-          list: list,
-          index: 0
-        };
+    storage.getPlaylist().then((playlist) => {
+      if (playlist.list.length > 0) {
+        currentPlaylists[tab.id] = playlist.randomShuffle();
         nextInPlaylist(tab.id, true);
       }
     });

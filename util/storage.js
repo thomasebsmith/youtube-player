@@ -3,38 +3,28 @@
   const area = browser.storage[name];
   let playlist = null;
 
-  const swap = (array, i, j) => {
-    const temp = array[i];
-    array[i] = array[j];
-    array[j] = temp;
-  };
-  const shuffled = (array) => {
-    array = array.slice();
-    for (let i = array.length - 1; i >= 1; --i) {
-      const randomIndex = Math.floor(Math.random() * (i + 1));
-      swap(array, i, randomIndex);
-    }
-    return array;
-  };
-
   const retrievePlaylist = () => {
     return area.get("playlist").then(({playlist}) => {
-      return playlist || [];
+      console.log("Here w ", playlist);
+      if (playlist) {
+        return global.Playlist.fromObject(playlist);
+      }
+      return new global.Playlist([]);
     });
   };
   browser.storage.onChanged.addListener((changes, areaName) => {
     if (changes["playlist"] && areaName === name) {
-      playlist = changes["playlist"].newValue;
+      playlist = Playlist.fromObject(changes["playlist"].newValue);
     }
   });
   const updateStorage = () => {
     return area.set({
-      playlist: playlist
+      playlist: playlist.toObject()
     });
   };
   const addToPlaylist = (youtubeID) => {
     return getPlaylist().then((playlist) => {
-      playlist.push(youtubeID);
+      playlist.list.push(youtubeID);
       return updateStorage();
     });
   };
@@ -47,7 +37,7 @@
     }
     return Promise.resolve(playlist);
   };
-  const getShuffledPlaylist = () => {
+  const getPlaylistStatus = () => {
     return getPlaylist().then((playlist) => {
       return shuffled(playlist);
     });
@@ -55,7 +45,6 @@
 
   global.storage = {
     addToPlaylist: addToPlaylist,
-    getPlaylist: getPlaylist,
-    getShuffledPlaylist: getShuffledPlaylist
+    getPlaylist: getPlaylist
   };
 })(this);
