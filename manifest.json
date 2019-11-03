@@ -15,7 +15,6 @@
     "48": "icons/48.png"
   },
   "permissions": [
-    "activeTab",
     "https://www.youtube.com/*",
     "menus",
     "storage",

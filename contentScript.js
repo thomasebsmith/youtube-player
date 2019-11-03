@@ -1,10 +1,18 @@
 let nextVideo = null;
 let videoDone = false;
-const videoEl = document.querySelector("video");
 
 const goToNextVideo = () => {
-  location.replace("/watch?v=" + nextVideo);
+  location.replace(nextVideo);
 };
+
+browser.runtime.onMessage.addListener(({playNextURL, forceNow}) => {
+  nextVideo = playNextURL;
+  if (videoDone || forceNow) {
+    goToNextVideo();
+  }
+});
+
+const videoEl = document.querySelector("video");
 
 if (videoEl !== null) {
   videoEl.addEventListener("ended", () => {
@@ -14,10 +22,3 @@ if (videoEl !== null) {
     }
   });
 }
-
-browser.runtime.onMessage.addListener(({playNext, forceNow}) => {
-  nextVideo = playNext;
-  if (videoDone || forceNow) {
-    goToNextVideo();
-  }
-});

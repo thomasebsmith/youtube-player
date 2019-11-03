@@ -22,7 +22,7 @@
       this.index = 0;
     }
     currentVideo() {
-      return this.playlist.videoAt(this.playlist[this.index]);
+      return this.playlist.videoAt(this.indices[this.index]);
     }
     nextVideo() {
       this.index = (this.index + 1) % this.indices.length;

@@ -1,5 +1,5 @@
-const videoNameEl = document.getElementById("videoID");
-const videoDescEl = document.getElementById("videoID");
+const videoNameEl = document.getElementById("videoName");
+const videoDescEl = document.getElementById("videoDesc");
 const videoIDEl = document.getElementById("videoID");
 const addEl = document.getElementById("add");
 

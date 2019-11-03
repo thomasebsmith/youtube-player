@@ -3,6 +3,7 @@
     if ((/[^a-zA-Z0-9\-_]/).test(id)) {
       throw "Invalid video id \"" + id + "\"";
     }
+    return id;
   };
 
   class Video {
@@ -19,9 +20,9 @@
     }
     toObject() {
       return {
-        name: name,
-        description: description,
-        id: id
+        name: this.name,
+        description: this.description,
+        id: this.id
       };
     }
   }

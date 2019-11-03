@@ -6,7 +6,7 @@ const nextInPlaylist = (tabId, forceNow = false) => {
   }).then(_ => {
     const playlist = currentPlaylists[tabId];
     browser.tabs.sendMessage(tabId, {
-      playNext: playlist.currentVideo(),
+      playNextURL: playlist.currentVideo().getURL(),
       forceNow: forceNow
     });
     playlist.nextVideo();
