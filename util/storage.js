@@ -5,7 +5,6 @@
 
   const retrievePlaylist = () => {
     return area.get("playlist").then(({playlist}) => {
-      console.log("Here w ", playlist);
       if (playlist) {
         return global.Playlist.fromObject(playlist);
       }
@@ -22,9 +21,9 @@
       playlist: playlist.toObject()
     });
   };
-  const addToPlaylist = (youtubeID) => {
+  const addToPlaylist = (video) => {
     return getPlaylist().then((playlist) => {
-      playlist.list.push(youtubeID);
+      playlist.list.push(video);
       return updateStorage();
     });
   };
