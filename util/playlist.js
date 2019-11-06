@@ -45,6 +45,10 @@
         list: this.list
       };
     }
+    inOrder() {
+      let ordering = Array(this.list.length).fill(0).map((_, i) => i);
+      return new PlaylistStatus(this, ordering);
+    }
     randomShuffle() {
       let ordering = Array(this.list.length).fill(0).map((_, i) => i);
       ordering = shuffled(ordering);

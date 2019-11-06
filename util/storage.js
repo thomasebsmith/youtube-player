@@ -36,11 +36,6 @@
     }
     return Promise.resolve(playlist);
   };
-  const getPlaylistStatus = () => {
-    return getPlaylist().then((playlist) => {
-      return shuffled(playlist);
-    });
-  };
 
   global.storage = {
     addToPlaylist: addToPlaylist,
