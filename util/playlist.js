@@ -1,3 +1,4 @@
+// REQUIRES: util/video.js is already imported.
 (function(global) {
   const swap = (array, i, j) => {
     const temp = array[i];

@@ -1,3 +1,5 @@
+// REQUIRES: util/playlist.js is already imported.
+
 (function(global) {
   const name = "local";
   const area = browser.storage[name];
