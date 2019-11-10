@@ -1,5 +1,10 @@
+// A dictionary of the form [tabId: Playlist] containing Playlists that are
+//  currently playing in any tab.
 let currentPlaylists = Object.create(null);
 
+// Sends a message to the tab with the given tabId, telling it to play the
+//  next video, either immediately (when forceNow is true) or when the current
+//  video is done playing.
 const nextInPlaylist = (tabId, forceNow = false) => {
   return browser.tabs.executeScript(tabId, {
     file: "/contentScript.js"
@@ -13,6 +18,7 @@ const nextInPlaylist = (tabId, forceNow = false) => {
   });
 };
 
+// Create the context menu item to start a Playlist.
 browser.menus.create({
   documentUrlPatterns: ["https://www.youtube.com/*"],
   icons: {
@@ -30,6 +36,8 @@ browser.menus.create({
   title: "Start playlist"
 });
 
+// Whenever the URL of a tab with a current Playlist changes, queue up the next
+//  video.
 browser.tabs.onUpdated.addListener((tabId, changeInfo, tab) => {
   if (changeInfo.url && currentPlaylists[tabId]) {
     nextInPlaylist(tabId);
@@ -38,6 +46,7 @@ browser.tabs.onUpdated.addListener((tabId, changeInfo, tab) => {
   urls: ["https://www.youtube.com/*"]
 });
 
+// Whenever a tab is removed, delete its current playlist (if it exists).
 browser.tabs.onRemoved.addListener((tabId, _) => {
   delete currentPlaylists[tabId];
 });
