@@ -25,3 +25,7 @@ Unfortunately, the add-on must be reloaded every time the browser is restarted.
 ##### v0.2
  - Ability to have multiple playlists
  - Ability to edit existing playlists
+
+##### v0.3
+ - Improvements for behavior when the user navigates while a playlist is playing
+ - Improvements for behavior when YouTube doesn't load properly.
