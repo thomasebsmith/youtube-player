@@ -2,7 +2,8 @@
 ##### A Firefox add-on for playing YouTube playlists without logging in
 
 YouTube Player is an add-on for Firefox. It provides the ability to store
-and play YouTube playlists without logging in to YouTube.
+and play YouTube playlists without logging in to YouTube. It is currently in
+early development.
 
 ## Functionality
 Currently, YouTube Player allows you to create one browser-wide playlist, which
@@ -16,7 +17,7 @@ enable developer mode and load the add-on manually in about:debugging.
 Unfortunately, the add-on must be reloaded every time the browser is restarted.
 
 ## Version History
-##### v0.1
+##### v0.1 (in development)
  - Ability to create YouTube playlists
  - Ability to play YouTube playlists
  - Ability to add names and descriptions for videos in playlists
