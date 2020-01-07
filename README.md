@@ -8,7 +8,7 @@ early development.
 ## Functionality
 Currently, YouTube Player allows you to create one browser-wide playlist, which
 can then be played in a random order in one or more tabs by right-clicking on
-the tab when it is at a YouTube video. The playlist can be modified by clicking
+a tab that is navigated to youtube.com. The playlist can be modified by clicking
 on the add-on icon to bring up a small popup.
 
 ## Installation
@@ -20,12 +20,12 @@ Unfortunately, the add-on must be reloaded every time the browser is restarted.
 ##### v0.1 (in development)
  - Ability to create YouTube playlists
  - Ability to play YouTube playlists
- - Ability to add names and descriptions for videos in playlists
 
 ## Future Versions
 ##### v0.2
  - Ability to have multiple playlists
  - Ability to edit existing playlists
+ - Ability to add names and descriptions for videos in playlists
 
 ##### v0.3
  - Improvements for behavior when the user navigates while a playlist is playing
