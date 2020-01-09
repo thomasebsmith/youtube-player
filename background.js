@@ -2,6 +2,11 @@
 //  currently playing in any tab.
 let currentPlaylists = Object.create(null);
 
+// A boolean indicating whether playlists should be shuffled. Currently must be
+//  changed here. Eventually, this will be a setting that can be modified
+//  easily.
+const shouldShuffle = true;
+
 // Sends a message to the tab with the given tabId, telling it to play the
 //  next video, either immediately (when forceNow is true) or when the current
 //  video is done playing.
@@ -28,7 +33,12 @@ browser.menus.create({
   onclick: (_, tab) => {
     storage.getPlaylist().then((playlist) => {
       if (playlist.list.length > 0) {
-        currentPlaylists[tab.id] = playlist.randomShuffle();
+        if (shouldShuffle) {
+          currentPlaylists[tab.id] = playlist.randomShuffle();
+        }
+        else {
+          currentPlaylists[tab.id] = playlist.inOrder();
+        }
         nextInPlaylist(tab.id, true);
       }
     });
