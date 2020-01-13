@@ -1,4 +1,5 @@
-// REQUIRES: util/playlist.js is already imported.
+// REQUIRES: util/playlist.js is already imported, which in turn requires that
+//  util/video.js be already imported.
 
 (function(global) {
   const name = "local";

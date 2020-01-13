@@ -1,5 +1,7 @@
 (function(global) {
   const enforceID = (id) => {
+    // YouTube IDs must contain only alphanumeric characters, hyphens, and
+    //  underscores.
     if ((/[^a-zA-Z0-9\-_]/).test(id)) {
       throw "Invalid video id \"" + id + "\"";
     }
