@@ -41,7 +41,10 @@
       return this.list[index];
     }
     static fromObject(obj) {
-      return new Playlist(obj.list.map(global.Video.fromObject));
+      return new Playlist(
+        obj.list.map(global.Video.fromObject),
+        obj.preference || "random"
+      );
     }
     toObject() {
       return {
