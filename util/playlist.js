@@ -32,8 +32,10 @@
 
   class Playlist {
     // REQUIRES: videoList.length !== 0
-    constructor(videoList) {
+    //  preference can be "random" or "inOrder"
+    constructor(videoList, preference = "random") {
       this.list = videoList;
+      this.preference = preference;
     }
     videoAt(index) {
       return this.list[index];
@@ -45,6 +47,15 @@
       return {
         list: this.list
       };
+    }
+    byPreference() {
+      switch (preference) {
+        case "random":
+          return randomShuffle();
+        case "inOrder":
+        default:
+          return inOrder();
+      }
     }
     inOrder() {
       let ordering = Array(this.list.length).fill(0).map((_, i) => i);
