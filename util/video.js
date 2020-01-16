@@ -8,6 +8,8 @@
     return id;
   };
 
+  const youTubeWatchURL = "https://www.youtube.com/watch?v=";
+
   class Video {
     constructor(name, description, id) {
       this.name = name + "";
@@ -15,7 +17,7 @@
       this.id = enforceID(id + "");
     }
     getURL() {
-      return "https://www.youtube.com/watch?v=" + this.id;
+      return youTubeWatchURL + this.id;
     }
     static fromObject(obj) {
       return new Video(obj.name, obj.description, obj.id);
