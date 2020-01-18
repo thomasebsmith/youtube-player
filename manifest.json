@@ -28,5 +28,9 @@
     "default_icon": "icons/32.png",
     "default_title": "YouTube Player",
     "default_popup": "popup/popup.html"
+  },
+  "options_ui": {
+    "page": "options/options.html",
+    "open_in_tab": true
   }
 }
