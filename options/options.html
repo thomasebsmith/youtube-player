@@ -2,13 +2,27 @@
 <html lang="en">
   <head>
     <meta charset="utf-8">
+    <link rel="stylesheet" href="./options.css">
     <link rel="icon" href="../icons/48.png">
     <title>YouTube Player | Options</title>
   </head>
   <body>
-    <form id="options-form">
-      <input type="radio" name="ordering" value="inOrder">
-      <input type="radio" name="ordering" value="random">
-    </form>
+    <header>
+      <ul id="tabs">
+        <span>
+          <li class="selected">General</li><li>Advanced</li>
+        </span>
+      </ul>
+    </header>
+    <article id="content">
+      <form id="options-form">
+        <p>Playlists play:</p>
+        <input id="inOrderRadio" type="radio" name="ordering" value="inOrder">
+        <label for="inOrderRadio">In order</label>
+        <br>
+        <input id="randomRadio" type="radio" name="ordering" value="random">
+        <label for="randomRadio">Random order</label>
+      </form>
+    </article>
   </body>
 </html>

@@ -1,0 +1,48 @@
+:root {
+  --tab-border-radius: 5px;
+  --tab-padding: 5px;
+}
+
+body {
+  font-family: Arial, Helvetica, sans-serif;
+  margin: 0;
+}
+
+header > h1 {
+  font-size: 1.5em;
+}
+
+header > #tabs {
+  font-size: 1em;
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  padding-top: calc(2 * var(--tab-padding));
+  padding-bottom: var(--tab-padding);
+  border-bottom: 1px solid black;
+}
+
+header > #tabs > span {
+  border-top: 1px solid black;
+  border-top-right-radius: var(--tab-border-radius);
+  padding-top: var(--tab-padding);
+}
+
+header > #tabs > span > li {
+  border-right: 1px solid black;
+  border-top-right-radius: var(--tab-border-radius);
+  cursor: pointer;
+  display: inline;
+  margin: 0;
+  padding: var(--tab-padding);
+  user-select: none;
+}
+
+header > #tabs > span > li.selected {
+  background: lightgray;
+  cursor: default;
+}
+
+#content {
+  margin: 10px 25px;
+}
