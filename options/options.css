@@ -46,3 +46,7 @@ header > #tabs > span > li.selected {
 #content {
   margin: 10px 25px;
 }
+
+#options-form > input[type=submit] {
+  margin-top: 10px;
+}
