@@ -20,6 +20,7 @@ Unfortunately, the add-on must be reloaded every time the browser is restarted.
 ##### v0.1 (in development)
  - Ability to create YouTube playlists
  - Ability to play YouTube playlists
+ - Ability to customize playback behavior via options page
 
 ## Future Versions
 ##### v0.2
