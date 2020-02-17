@@ -1,3 +1,4 @@
+const playlistIDEl = document.getElementById("playlistID");
 const videoNameEl = document.getElementById("videoName");
 const videoDescEl = document.getElementById("videoDesc");
 const videoIDEl = document.getElementById("videoID");
@@ -10,19 +11,28 @@ const showInputError = () => {
 };
 
 addEl.addEventListener("click", () => {
+  let playlistToAddTo = playlistIDEl.value.trim();
   const nameToAdd = videoNameEl.value;
   const descToAdd = videoDescEl.value;
   const idToAdd = videoIDEl.value.trim();
-  if (idToAdd === "") {
+  if (idToAdd === "" || playlistToAddTo === "") {
     showInputError();
+    return;
   }
-  else {
-    storage.addToPlaylist(new Video(nameToAdd, descToAdd, idToAdd)).then(() => {
-      videoNameEl.value = "";
-      videoDescEl.value = "";
-      videoIDEl.value = "";
-    }).catch(() => {
-      showInputError();
-    });
+  playlistToAddTo = parseInt(playlistToAddTo, 10);
+  if (!Number.isFinite(playlistToAddTo)) {
+    showInputError();
+    return;
   }
+
+  storage.addToPlaylist(
+    playlistToAddTo,
+    new Video(nameToAdd, descToAdd, idToAdd)
+  ).then(() => {
+    videoNameEl.value = "";
+    videoDescEl.value = "";
+    videoIDEl.value = "";
+  }).catch(() => {
+    showInputError();
+  });
 });

@@ -4,45 +4,45 @@
 (function(global) {
   const name = "local";
   const area = browser.storage[name];
-  const propName = "playlist";
-  let playlist = null;
+  const propName = "playlists";
+  let playlists = null;
 
-  const retrievePlaylist = () => {
-    return area.get(propName).then(({playlist}) => {
-      if (playlist) {
-        return global.Playlist.fromObject(playlist);
+  const retrievePlaylists = () => {
+    return area.get(propName).then(({playlists}) => {
+      if (Array.isArray(playlists)) {
+        return playlists.map(global.Playlist.fromObject);
       }
-      return new global.Playlist([]);
+      return [];
     });
   };
   browser.storage.onChanged.addListener((changes, areaName) => {
     if (changes[propName] && areaName === name) {
-      playlist = Playlist.fromObject(changes[propName].newValue);
+      playlists = changes[propName].newValue.map(global.Playlist.fromObject);
     }
   });
   const updateStorage = () => {
     return area.set({
-      playlist: playlist.toObject()
+      [propName]: playlists.map(playlist => playlist.toObject())
     });
   };
-  const addToPlaylist = (video) => {
-    return getPlaylist().then((playlist) => {
-      playlist.list.push(video);
+  const addToPlaylist = (index, video) => {
+    return getPlaylists().then((playlists) => {
+      playlists[index].list.push(video);
       return updateStorage();
     });
   };
-  const getPlaylist = () => {
-    if (playlist === null) {
-      return retrievePlaylist().then((retrieved) => {
-        playlist = retrieved;
-        return playlist;
+  const getPlaylists = () => {
+    if (playlists === null) {
+      return retrievePlaylists().then((retrieved) => {
+        playlists = retrieved;
+        return playlists;
       });
     }
-    return Promise.resolve(playlist);
+    return Promise.resolve(playlists);
   };
 
   global.storage = {
     addToPlaylist: addToPlaylist,
-    getPlaylist: getPlaylist
+    getPlaylists: getPlaylists
   };
 })(this);

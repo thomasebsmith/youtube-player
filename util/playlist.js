@@ -52,12 +52,12 @@
       };
     }
     byPreference() {
-      switch (preference) {
+      switch (this.preference) {
         case "random":
-          return randomShuffle();
+          return this.randomShuffle();
         case "inOrder":
         default:
-          return inOrder();
+          return this.inOrder();
       }
     }
     inOrder() {
