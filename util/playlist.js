@@ -33,8 +33,9 @@
   class Playlist {
     // REQUIRES: videoList.length !== 0
     //  preference can be "random" or "inOrder"
-    constructor(videoList, preference = "random") {
+    constructor(videoList, name, preference = "random") {
       this.list = videoList;
+      this.name = name;
       this.preference = preference;
     }
     videoAt(index) {
@@ -43,12 +44,15 @@
     static fromObject(obj) {
       return new Playlist(
         obj.list.map(global.Video.fromObject),
+        obj.name || "<name>",
         obj.preference || "random"
       );
     }
     toObject() {
       return {
-        list: this.list
+        list: this.list,
+        name: this.name,
+        preference: this.preference
       };
     }
     byPreference() {

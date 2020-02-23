@@ -39,9 +39,8 @@ storage.getPlaylists().then((playlists) => {
           }
         });
       },
-      title: "Start playlist " + storedI
+      title: "Start playlist " + playlists[storedI].name
     });
-    ++i;
   }
 });
 
