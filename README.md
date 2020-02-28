@@ -30,5 +30,7 @@ Unfortunately, the add-on must be reloaded every time the browser is restarted.
  - Ability to view and edit names and descriptions for videos in playlists
 
 ##### v0.3
- - Improvements for behavior when the user navigates while a playlist is playing
+ - Improvements for behavior when the user navigates while a playlist is
+   playing.
  - Improvements for behavior when YouTube doesn't load properly.
+ - Keyboard shortcuts to start playlists.
