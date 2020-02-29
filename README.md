@@ -31,6 +31,9 @@ Unfortunately, the add-on must be reloaded every time the browser is restarted.
 
 ##### v0.3
  - Improvements for behavior when the user navigates while a playlist is
-   playing.
- - Improvements for behavior when YouTube doesn't load properly.
- - Keyboard shortcuts to start playlists.
+   playing
+ - Improvements for behavior when YouTube doesn't load properly
+ - Keyboard shortcuts to start playlists
+
+##### v0.4
+ - Ability to auto-generate playlists based on browsing
