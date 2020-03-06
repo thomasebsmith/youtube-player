@@ -40,9 +40,16 @@
     }
     return Promise.resolve(playlists);
   };
+  const updatePlaylist = (index, newPlaylist) => {
+    return getPlaylists().then((playlists) => {
+      playlists[index] = newPlaylist;
+      return updateStorage();
+    });
+  };
 
   global.storage = {
     addToPlaylist: addToPlaylist,
-    getPlaylists: getPlaylists
+    getPlaylists: getPlaylists,
+    updatePlaylist: updatePlaylist
   };
 })(this);
