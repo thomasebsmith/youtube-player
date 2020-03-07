@@ -11,5 +11,4 @@ const loadOptions = (options) => {
     randomRadioEl.checked = false;
     inOrderRadioEl.checked = true;
   }
-  }
 };
