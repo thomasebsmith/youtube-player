@@ -38,3 +38,4 @@ Unfortunately, the add-on must be reloaded every time the browser is restarted.
 ##### v0.4
  - Ability to auto-generate playlists based on browsing
  - Ability to save and restore playlists
+ - Ability to add start/stop times for individual videos
