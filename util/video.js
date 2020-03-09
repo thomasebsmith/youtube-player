@@ -12,9 +12,27 @@
 
   class Video {
     constructor(name, description, id) {
-      this.name = name + "";
-      this.description = description + "";
-      this.id = enforceID(id + "");
+      this.name = name;
+      this.description = description;
+      this.id = id;
+    }
+    get name() {
+      return this._name;
+    }
+    set name(newName) {
+      this._name = newName + "";
+    }
+    get description() {
+      return this._description;
+    }
+    set description(newDesc) {
+      this._description = newDesc + "";
+    }
+    get id() {
+      return this._id;
+    }
+    set id(newID) {
+      this._id = enforceID(newID + "");
     }
     getURL() {
       return youTubeWatchURL + this.id;
