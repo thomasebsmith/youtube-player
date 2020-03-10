@@ -44,8 +44,8 @@
     static fromObject(obj) {
       return new Playlist(
         obj.list.map(global.Video.fromObject),
-        obj.name || "<name>",
-        obj.preference || "random"
+        obj.name || Playlist.defaultName,
+        obj.preference || Playlist.defaultPreference
       );
     }
     toObject() {
@@ -74,6 +74,8 @@
       return new PlaylistStatus(this, ordering);
     }
   }
+  Playlist.defaultName = "<name>";
+  Playlist.defaultPreference = "random";
   
   global.Playlist = Playlist;
   global.PlaylistStatus = PlaylistStatus;
