@@ -38,6 +38,25 @@
       this.name = name;
       this.preference = preference;
     }
+    set list(newList) {
+      this._list = global.Array.from(newList);
+    }
+    get list() {
+      return this._list;
+    }
+    set name(newName) {
+      this._name = newName ? newName + "" : Playlist.defaultName;
+    }
+    get name() {
+      return this._name;
+    }
+    set preference(newPreference) {
+      this._preference = newPreference ? newPreference + "" :
+        Playlist.defaultPreference;
+    }
+    get preference() {
+      return this._preference;
+    }
     videoAt(index) {
       return this.list[index];
     }
