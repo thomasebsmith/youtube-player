@@ -13,6 +13,7 @@
     }
     return array;
   };
+  let PlaylistClass;
 
   class PlaylistStatus {
     // REQUIRES: indices.length <= playlist.list.length
@@ -21,6 +22,35 @@
       this.playlist = playlist;
       this.indices = indices;
       this.index = 0;
+    }
+    set playlist(newPlaylist) {
+      if (!(newPlaylist instanceof PlaylistClass)) {
+        throw "Invalid playlist \"" + newPlaylist + "\"";
+      }
+      this._playlist = newPlaylist;
+    }
+    get playlist() {
+      return this._playlist;
+    }
+    set indices(newIndices) {
+      newIndices = global.Array.from(newIndices);
+      if (newIndices.length > this.playlist.list.length) {
+        throw "Invalid indices \"" + newIndices + "\" (too many)";
+      }
+      this._indices = newIndices;
+    }
+    get indices() {
+      return this._indices;
+    }
+    set index(newIndex) {
+      newIndex = newIndex | 0;
+      if (newIndex >= this.indices.length || newIndex < 0) {
+        throw "Invalid index \"" + newIndex + "\" (out of range)";
+      }
+      this._index = newIndex;
+    }
+    get index() {
+      return this._index;
     }
     currentVideo() {
       return this.playlist.videoAt(this.indices[this.index]);
@@ -93,6 +123,7 @@
       return new PlaylistStatus(this, ordering);
     }
   }
+  PlaylistClass = Playlist;
   Playlist.defaultName = "<name>";
   Playlist.defaultPreference = "random";
   
