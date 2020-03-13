@@ -28,6 +28,7 @@ Unfortunately, the add-on must be reloaded every time the browser is restarted.
  - Ability to customize playback behavior via options page
  - Ability to view and edit existing playlists
  - Ability to view and edit names and descriptions for videos in playlists
+ - Better code quality, including more comments
 
 ##### v0.3
  - Improvements for behavior when the user navigates while a playlist is
