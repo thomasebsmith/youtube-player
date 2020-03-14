@@ -6,6 +6,7 @@
   const area = browser.storage[name];
   const propName = "playlists";
   let playlists = null;
+  let updateListeners = [];
 
   const retrievePlaylists = () => {
     return area.get(propName).then(({playlists}) => {
@@ -18,6 +19,14 @@
   browser.storage.onChanged.addListener((changes, areaName) => {
     if (changes[propName] && areaName === name) {
       playlists = changes[propName].newValue.map(global.Playlist.fromObject);
+      for (const listener of updateListeners) {
+        try {
+          listener(playlists);
+        }
+        catch (e) {
+          // Listener errors ignored.
+        }
+      }
     }
   });
   const updateStorage = () => {
@@ -46,10 +55,14 @@
       return updateStorage();
     });
   };
+  const onPlaylistUpdate = (listener) => {
+    return updateListeners.push(listener);
+  };
 
   global.storage = {
     addToPlaylist: addToPlaylist,
     getPlaylists: getPlaylists,
+    onPlaylistUpdate: onPlaylistUpdate,
     updatePlaylist: updatePlaylist
   };
 })(this);
