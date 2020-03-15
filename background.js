@@ -19,28 +19,41 @@ const nextInPlaylist = (tabId, forceNow = false) => {
   });
 };
 
+const createContextMenuItem = (playlists, i) => {
+  browser.menus.create({
+    documentUrlPatterns: ["https://www.youtube.com/*"],
+    icons: {
+      "16": "icons/16.png",
+      "32": "icons/32.png"
+    },
+    onclick: (_, tab) => {
+      storage.getPlaylists().then((playlists) => {
+        const playlist = playlists[i];
+        if (playlist.list.length > 0) {
+          currentPlaylists[tab.id] = playlist.byPreference();
+          nextInPlaylist(tab.id, true);
+        }
+      });
+    },
+    title: "Start playlist " + playlists[i].name
+  });
+};
+
 // Create the context menu items to start Playlists.
-// FIXME: What if new Playlists are created?
+let numPlaylists;
 storage.getPlaylists().then((playlists) => {
   for (let i = 0; i < playlists.length; ++i) {
-    const storedI = i;
-    browser.menus.create({
-      documentUrlPatterns: ["https://www.youtube.com/*"],
-      icons: {
-        "16": "icons/16.png",
-        "32": "icons/32.png"
-      },
-      onclick: (_, tab) => {
-        storage.getPlaylists().then((playlists) => {
-          const playlist = playlists[storedI];
-          if (playlist.list.length > 0) {
-            currentPlaylists[tab.id] = playlist.byPreference();
-            nextInPlaylist(tab.id, true);
-          }
-        });
-      },
-      title: "Start playlist " + playlists[storedI].name
-    });
+    createContextMenuItem(playlists, i);
+  }
+  numPlaylists = playlists.length;
+});
+// FIXME: What if playlists are removed??
+storage.onPlaylistUpdate((playlists) => {
+  if (playlists.length > numPlaylists) {
+    for (let i = numPlaylists; i < playlists.length; ++i) {
+      createContextMenuItem(playlists, i);
+    }
+    numPlaylists = playlists.length;
   }
 });
 
