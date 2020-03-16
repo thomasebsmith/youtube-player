@@ -19,8 +19,10 @@ const nextInPlaylist = (tabId, forceNow = false) => {
   });
 };
 
+let playlistMenuItems = [];
+
 const createContextMenuItem = (playlists, i) => {
-  browser.menus.create({
+  playlistMenuItems[i] = browser.menus.create({
     documentUrlPatterns: ["https://www.youtube.com/*"],
     icons: {
       "16": "icons/16.png",
@@ -40,20 +42,20 @@ const createContextMenuItem = (playlists, i) => {
 };
 
 // Create the context menu items to start Playlists.
-let numPlaylists;
 storage.getPlaylists().then((playlists) => {
   for (let i = 0; i < playlists.length; ++i) {
     createContextMenuItem(playlists, i);
   }
-  numPlaylists = playlists.length;
 });
-// FIXME: What if playlists are removed??
 storage.onPlaylistUpdate((playlists) => {
-  if (playlists.length > numPlaylists) {
-    for (let i = numPlaylists; i < playlists.length; ++i) {
+  if (playlists.length > playlistMenuItems.length) {
+    for (let i = playlistMenuItems.length; i < playlists.length; ++i) {
       createContextMenuItem(playlists, i);
     }
-    numPlaylists = playlists.length;
+  }
+  while (playlistMenuItems.length > playlists.length) {
+    browser.menus.remove(playlistMenuItems[playlistMenuItems.length - 1]);
+    playlistMenuItems.pop();
   }
 });
 
