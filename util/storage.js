@@ -21,7 +21,9 @@
       playlists = changes[propName].newValue.map(global.Playlist.fromObject);
       for (const listener of updateListeners) {
         try {
-          listener(playlists);
+          if (listener !== undefined) {
+            listener(playlists);
+          }
         }
         catch (e) {
           // Listener errors ignored.
@@ -56,13 +58,17 @@
     });
   };
   const onPlaylistUpdate = (listener) => {
-    return updateListeners.push(listener);
+    return updateListeners.push(listener) - 1;
+  };
+  const removePlaylistUpdateListener = (id) => {
+    delete updateListeners[id];
   };
 
   global.storage = {
     addToPlaylist: addToPlaylist,
     getPlaylists: getPlaylists,
     onPlaylistUpdate: onPlaylistUpdate,
+    removePlaylistUpdateListener: removePlaylistUpdateListener,
     updatePlaylist: updatePlaylist
   };
 })(this);
