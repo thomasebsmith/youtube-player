@@ -26,7 +26,7 @@
           }
         }
         catch (e) {
-          // Listener errors ignored.
+          console.error("Error executing storage listener:", e);
         }
       }
     }
