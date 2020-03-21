@@ -5,15 +5,26 @@
   const name = "local";
   const area = browser.storage[name];
   const propName = "playlists";
+  const optionsPropName = "options";
   let playlists = null;
   let updateListeners = [];
 
   const retrievePlaylists = () => {
-    return area.get(propName).then(({playlists}) => {
+    return area.get(propName).then(({[propName]: playlists}) => {
       if (Array.isArray(playlists)) {
         return playlists.map(global.Playlist.fromObject);
       }
       return [];
+    });
+  };
+  const retrieveOptions = () => {
+    return area.get(optionsPropName).then(({[optionsPropName]: options}) => {
+      if (typeof options !== "object") {
+        options = {};
+      }
+      return {
+        playback: options.playback || "random"
+      };
     });
   };
   browser.storage.onChanged.addListener((changes, areaName) => {
@@ -51,6 +62,9 @@
     }
     return Promise.resolve(playlists);
   };
+  const getOptions = () => {
+    return retrieveOptions();
+  };
   const updatePlaylist = (index, newPlaylist) => {
     return getPlaylists().then((playlists) => {
       playlists[index] = newPlaylist;
@@ -66,6 +80,7 @@
 
   global.storage = {
     addToPlaylist: addToPlaylist,
+    getOptions: getOptions,
     getPlaylists: getPlaylists,
     onPlaylistUpdate: onPlaylistUpdate,
     removePlaylistUpdateListener: removePlaylistUpdateListener,

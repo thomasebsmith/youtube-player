@@ -1,8 +1,18 @@
 const formEl = document.getElementById("options-form");
 const inOrderRadioEl = document.getElementById("inOrderRadio");
+const playlistsEl = document.getElementById("playlists");
 const randomRadioEl = document.getElementById("randomRadio");
 
-const loadOptions = (options) => {
+const createPlaylistEl = (playlist, id) => {
+  const el = document.createElement("div");
+  el.classList.append("playlist");
+  // TODO
+};
+
+const loadOptions = (options, playlists) => {
+  for (let i = 0; i < playlists.length; ++i) {
+    createPlaylistEl(playlists[i], i);
+  }
   if (options.playback === "random") {
     inOrderRadioEl.checked = false;
     randomRadioEl.checked = true;
@@ -12,3 +22,10 @@ const loadOptions = (options) => {
     inOrderRadioEl.checked = true;
   }
 };
+
+Promise.all([
+  storage.getOptions(),
+  storage.getPlaylists()
+]).then(([options, playlists]) => {
+  loadOptions(options, playlists);
+});
