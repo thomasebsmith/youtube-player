@@ -6,6 +6,13 @@ const randomRadioEl = document.getElementById("randomRadio");
 const createPlaylistEl = (playlist, id) => {
   const el = document.createElement("div");
   el.classList.append("playlist");
+
+  const nameEl = document.createElement("input");
+  nameEl.setAttribute("type", "text");
+  nameEl.textContent = playlist.name;
+  nameEl.setAttribute("placeholder", "name");
+  el.appendChild(nameEl);
+
   // TODO
 };
 
