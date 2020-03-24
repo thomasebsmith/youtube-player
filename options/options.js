@@ -2,14 +2,15 @@ const formEl = document.getElementById("options-form");
 const inOrderRadioEl = document.getElementById("inOrderRadio");
 const playlistsEl = document.getElementById("playlists");
 const randomRadioEl = document.getElementById("randomRadio");
+const saveButton = document.getElementById("saveButton");
 
 const createPlaylistEl = (playlist, id) => {
   const el = document.createElement("div");
-  el.classList.append("playlist");
+  el.classList.add("playlist");
 
   const nameEl = document.createElement("input");
   nameEl.setAttribute("type", "text");
-  nameEl.textContent = playlist.name;
+  nameEl.value = playlist.name;
   nameEl.setAttribute("placeholder", "name");
   el.appendChild(nameEl);
 
@@ -35,9 +36,11 @@ const createPlaylistEl = (playlist, id) => {
   inOrderLabelEl.textContent = "In order";
   el.appendChild(inOrderLabelEl);
 
+  (playlist.preference === "random" ? randomOrderEl : inOrderEl).checked = true;
+
   // TODO
 
-  formEl.appendChild(el);
+  formEl.insertBefore(el, saveButton);
 };
 
 const loadOptions = (options, playlists) => {
