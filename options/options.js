@@ -38,6 +38,15 @@ const createPlaylistEl = (playlist, id) => {
 
   (playlist.preference === "random" ? randomOrderEl : inOrderEl).checked = true;
 
+  const listEl = document.createElement("ol");
+  for (const video of playlist.list) {
+    const videoEl = document.createElement("li");
+    videoEl.textContent = video.name;
+    // TODO
+    listEl.appendChild(videoEl);
+  }
+  el.appendChild(listEl);
+
   // TODO
 
   formEl.insertBefore(el, saveButton);
