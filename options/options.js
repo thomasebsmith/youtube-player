@@ -42,7 +42,7 @@ const createPlaylistEl = (playlist, id) => {
   for (const video of playlist.list) {
     const videoEl = document.createElement("li");
     videoEl.textContent = video.name;
-    // TODO
+    videoEl.title = video.description;
     listEl.appendChild(videoEl);
   }
   el.appendChild(listEl);
