@@ -41,8 +41,12 @@ const createPlaylistEl = (playlist, id) => {
   const listEl = document.createElement("ol");
   for (const video of playlist.list) {
     const videoEl = document.createElement("li");
-    videoEl.textContent = video.name;
-    videoEl.title = video.description;
+    const linkEl = document.createElement("a");
+    linkEl.textContent = video.name;
+    linkEl.setAttribute("href", video.getURL());
+    linkEl.setAttribute("target", "_blank");
+    videoEl.appendChild(linkEl);
+    videoEl.setAttribute("title", video.description);
     listEl.appendChild(videoEl);
   }
   el.appendChild(listEl);
