@@ -50,3 +50,17 @@ header > #tabs > span > li.selected {
 #options-form > input[type=submit] {
   margin-top: 10px;
 }
+
+.playlist {
+  border-top: 1px solid black;
+  margin-top: 20px;
+  padding-top: 20px;
+}
+
+a {
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+}

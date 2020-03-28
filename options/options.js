@@ -11,7 +11,7 @@ const createPlaylistEl = (playlist, id) => {
   const nameEl = document.createElement("input");
   nameEl.setAttribute("type", "text");
   nameEl.value = playlist.name;
-  nameEl.setAttribute("placeholder", "name");
+  nameEl.setAttribute("placeholder", "Name");
   el.appendChild(nameEl);
 
   const randomOrderEl = document.createElement("input");
@@ -53,7 +53,7 @@ const createPlaylistEl = (playlist, id) => {
 
   // TODO
 
-  formEl.insertBefore(el, saveButton);
+  playlistsEl.appendChild(el);
 };
 
 const loadOptions = (options, playlists) => {
