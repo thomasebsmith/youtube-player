@@ -70,6 +70,26 @@ const loadOptions = (options, playlists) => {
   }
 };
 
+const retrieveOptions = () => {
+  let playlists = [];
+  for (const el of playlistsEl.children) {
+    let videos = [];
+    for (const li of el.querySelector("ul").children) {
+      videos.push(new global.Video(
+        // TODO: get name, description, id
+      ));
+    }
+    let playlist = new global.Playlist(
+      // TODO: get list, name, preference
+    );
+  }
+
+  let options = {};
+  // TODO: retrieve options
+
+  return { playlists, options };
+};
+
 Promise.all([
   storage.getOptions(),
   storage.getPlaylists()
