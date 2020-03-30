@@ -47,6 +47,7 @@ const createPlaylistEl = (playlist, id) => {
     linkEl.setAttribute("target", "_blank");
     videoEl.appendChild(linkEl);
     videoEl.setAttribute("title", video.description);
+    videoEl.dataset.id = video.id;
     listEl.appendChild(videoEl);
   }
   el.appendChild(listEl);
@@ -76,7 +77,9 @@ const retrieveOptions = () => {
     let videos = [];
     for (const li of el.querySelector("ul").children) {
       videos.push(new global.Video(
-        // TODO: get name, description, id
+        li.textContent, // name
+        li.getAttribute("title"), // description
+        li.dataset.id // id
       ));
     }
     let playlist = new global.Playlist(
@@ -85,7 +88,7 @@ const retrieveOptions = () => {
   }
 
   let options = {};
-  // TODO: retrieve options
+  options.playback === randomRadioEl.checked ? "random" : "inOrder";
 
   return { playlists, options };
 };
