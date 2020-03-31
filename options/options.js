@@ -12,6 +12,7 @@ const createPlaylistEl = (playlist, id) => {
   nameEl.setAttribute("type", "text");
   nameEl.value = playlist.name;
   nameEl.setAttribute("placeholder", "Name");
+  nameEl.classList.add("playlist-name");
   el.appendChild(nameEl);
 
   const randomOrderEl = document.createElement("input");
@@ -72,8 +73,10 @@ const loadOptions = (options, playlists) => {
 };
 
 const retrieveOptions = () => {
+  const data = new FormData(formEl);
   let playlists = [];
-  for (const el of playlistsEl.children) {
+  for (let i = 0; i < playlistEl.children.length; ++i) {
+    const el = playlistEl.children[i];
     let videos = [];
     for (const li of el.querySelector("ul").children) {
       videos.push(new global.Video(
@@ -82,9 +85,12 @@ const retrieveOptions = () => {
         li.dataset.id // id
       ));
     }
-    let playlist = new global.Playlist(
-      // TODO: get list, name, preference
+    const playlist = new global.Playlist(
+      videos, // list
+      el.querySelector("input.playlist-name").value, // name
+      data.get("ordering-" + i) // preference
     );
+    playlists.push(playlist);
   }
 
   let options = {};
