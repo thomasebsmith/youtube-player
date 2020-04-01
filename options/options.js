@@ -4,6 +4,8 @@ const playlistsEl = document.getElementById("playlists");
 const randomRadioEl = document.getElementById("randomRadio");
 const saveButton = document.getElementById("saveButton");
 
+// Creates a div that contains the information (title, songs, etc.) for one
+//  playlist in editable HTML. Appends this div to #playlists.
 const createPlaylistEl = (playlist, id) => {
   const el = document.createElement("div");
   el.classList.add("playlist");
@@ -52,8 +54,6 @@ const createPlaylistEl = (playlist, id) => {
     listEl.appendChild(videoEl);
   }
   el.appendChild(listEl);
-
-  // TODO
 
   playlistsEl.appendChild(el);
 };
