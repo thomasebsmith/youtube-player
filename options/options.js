@@ -58,7 +58,10 @@ const createPlaylistEl = (playlist, id) => {
   playlistsEl.appendChild(el);
 };
 
+// Creates the HTML elements for a given set of options and playlists. Also
+//  clears any prior elements.
 const loadOptions = (options, playlists) => {
+  playlistsEl.textContent = "";
   for (let i = 0; i < playlists.length; ++i) {
     createPlaylistEl(playlists[i], i);
   }
