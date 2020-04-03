@@ -75,6 +75,9 @@ const loadOptions = (options, playlists) => {
   }
 };
 
+// Retrieves the modified playlists and options based on the current state
+//  of the form. Note that this data may not reflect the actual playlists or
+//  options if the save button has not yet been clicked.
 const retrieveOptions = () => {
   const data = new FormData(formEl);
   let playlists = [];
@@ -102,6 +105,7 @@ const retrieveOptions = () => {
   return { playlists, options };
 };
 
+// Initialize the page based on the options and playlists from storage.
 Promise.all([
   storage.getOptions(),
   storage.getPlaylists()
