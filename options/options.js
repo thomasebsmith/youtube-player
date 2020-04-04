@@ -105,6 +105,26 @@ const retrieveOptions = () => {
   return { playlists, options };
 };
 
+const getBackup = () => {
+  return Promise.all([
+    storage.getOptions(),
+    storage.getPlaylists()
+  ]).then(([options, playlists]) => {
+    return JSON.stringify({ options, playlists });
+  });
+};
+
+const useBackup = (backup) => {
+  const { options, playlists } = JSON.parse(backup);
+  return getBackup().then((backup) => {
+    console.warn("Evicting backup: " + backup);
+    return Promise.all([
+      storage.setOptions(options),
+      storage.setPlaylists(playlists)
+    ]);
+  });
+};
+
 // Initialize the page based on the options and playlists from storage.
 Promise.all([
   storage.getOptions(),

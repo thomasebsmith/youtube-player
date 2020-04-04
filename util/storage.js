@@ -77,6 +77,15 @@
   const removePlaylistUpdateListener = (id) => {
     delete updateListeners[id];
   };
+  const setOptions = (options) => {
+    return area.set({
+      [optionsPropName]: options
+    });
+  };
+  const setPlaylists = (newPlaylists) => {
+    playlists = newPlaylists;
+    return updateStorage();
+  };
 
   global.storage = {
     addToPlaylist: addToPlaylist,
@@ -84,6 +93,8 @@
     getPlaylists: getPlaylists,
     onPlaylistUpdate: onPlaylistUpdate,
     removePlaylistUpdateListener: removePlaylistUpdateListener,
-    updatePlaylist: updatePlaylist
+    setOptions: setOptions,
+    setPlaylists: setPlaylists,
+    updatePlaylist: updatePlaylist,
   };
 })(this);
