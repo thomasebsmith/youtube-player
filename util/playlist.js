@@ -1,10 +1,15 @@
 // REQUIRES: util/video.js is already imported.
 (function(global) {
+  // REQUIRES: i < array.length
+  //           j < array.length
+  // Swaps array[i] and array[j].
   const swap = (array, i, j) => {
     const temp = array[i];
     array[i] = array[j];
     array[j] = temp;
   };
+
+  // Creates and returns a shuffled copy of array.
   const shuffled = (array) => {
     array = array.slice();
     for (let i = array.length - 1; i >= 1; --i) {
@@ -13,6 +18,8 @@
     }
     return array;
   };
+
+  // Needed so that Playlist can be referenced before it is defined.
   let PlaylistClass;
 
   class PlaylistStatus {
