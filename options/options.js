@@ -81,17 +81,20 @@ const loadOptions = (options, playlists) => {
 const retrieveOptions = () => {
   const data = new FormData(formEl);
   let playlists = [];
-  for (let i = 0; i < playlistEl.children.length; ++i) {
-    const el = playlistEl.children[i];
+  for (let i = 0; i < playlistsEl.children.length; ++i) {
+    const el = playlistsEl.children[i];
     let videos = [];
-    for (const li of el.querySelector("ul").children) {
-      videos.push(new global.Video(
-        li.textContent, // name
-        li.getAttribute("title"), // description
-        li.dataset.id // id
-      ));
+    const playlistListEl = el.querySelector("ol");
+    if (playlistListEl !== null) {
+      for (const li of playlistListEl.children) {
+        videos.push(new Video(
+          li.textContent, // name
+          li.getAttribute("title"), // description
+          li.dataset.id // id
+        ));
+      }
     }
-    const playlist = new global.Playlist(
+    const playlist = new Playlist(
       videos, // list
       el.querySelector("input.playlist-name").value, // name
       data.get("ordering-" + i) // preference
@@ -100,7 +103,7 @@ const retrieveOptions = () => {
   }
 
   let options = {};
-  options.playback === randomRadioEl.checked ? "random" : "inOrder";
+  options.playback = randomRadioEl.checked ? "random" : "inOrder";
 
   return { playlists, options };
 };
