@@ -106,7 +106,7 @@
     }
     toObject() {
       return {
-        list: this.list,
+        list: this.list.map(video => video.toObject()),
         name: this.name,
         preference: this.preference
       };

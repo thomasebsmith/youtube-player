@@ -113,7 +113,10 @@ const getBackup = () => {
     storage.getOptions(),
     storage.getPlaylists()
   ]).then(([options, playlists]) => {
-    return JSON.stringify({ options, playlists });
+    return JSON.stringify({
+      options,
+      playlists: playlists.map(p =>  p.toObject())
+    });
   });
 };
 
@@ -123,7 +126,7 @@ const useBackup = (backup) => {
     console.warn("Evicting backup: " + backup);
     return Promise.all([
       storage.setOptions(options),
-      storage.setPlaylists(playlists)
+      storage.setPlaylists(playlists.map(Playlist.fromObject))
     ]);
   });
 };
