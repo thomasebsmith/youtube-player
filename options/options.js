@@ -2,7 +2,6 @@ const formEl = document.getElementById("options-form");
 const inOrderRadioEl = document.getElementById("inOrderRadio");
 const playlistsEl = document.getElementById("playlists");
 const randomRadioEl = document.getElementById("randomRadio");
-const saveButton = document.getElementById("saveButton");
 
 // Creates a div that contains the information (title, songs, etc.) for one
 //  playlist in editable HTML. Appends this div to #playlists.
@@ -137,4 +136,13 @@ Promise.all([
   storage.getPlaylists()
 ]).then(([options, playlists]) => {
   loadOptions(options, playlists);
+  formEl.addEventListener("submit", (event) => {
+    event.preventDefault();
+
+    const { options, playlists } = retrieveOptions();
+    Promise.all([
+      storage.setOptions(options),
+      storage.setPlaylists(playlists)
+    ]);
+  });
 });
