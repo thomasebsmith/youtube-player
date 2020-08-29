@@ -74,6 +74,25 @@ const loadOptions = (options, playlists) => {
   }
 };
 
+const editText = (textNode) => {
+  const newInput = document.createElement("input");
+  newInput.classList.add("editing");
+  newInput.value = textNode.textContent;
+  textNode.parentElement.replaceChild(newInput, textNode);
+};
+
+const finishEditing = (inputEl) => {
+  const newNode = document.createTextNode(inputEl.value);
+  inputEl.parentElement.replaceChild(newNode, inputEl);
+};
+
+const finishEditingAll = () => {
+  const editingElements = [...document.querySelectorAll("input.editing")];
+  for (const element of editingElements) {
+    finishEditing(element);
+  }
+};
+
 // Retrieves the modified playlists and options based on the current state
 //  of the form. Note that this data may not reflect the actual playlists or
 //  options if the save button has not yet been clicked.
@@ -108,6 +127,7 @@ const retrieveOptions = () => {
 };
 
 const getBackup = () => {
+  finishEditingAll();
   return Promise.all([
     storage.getOptions(),
     storage.getPlaylists()
@@ -138,6 +158,8 @@ Promise.all([
   loadOptions(options, playlists);
   formEl.addEventListener("submit", (event) => {
     event.preventDefault();
+
+    finishEditingAll();
 
     const { options, playlists } = retrieveOptions();
     Promise.all([
