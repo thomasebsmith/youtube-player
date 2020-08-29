@@ -74,16 +74,51 @@ const loadOptions = (options, playlists) => {
   }
 };
 
-const editText = (textNode) => {
+const attributeDataKey  = "data-former-attribute-";
+
+// Replaces `element` with an <input> element containing `element`'s text.
+// All attributes (except those in attributesToKeep) are stored as data-
+// attributes for restoring later.
+const editElement = (element, attributesToKeep = Object.create(null)) => {
   const newInput = document.createElement("input");
   newInput.classList.add("editing");
-  newInput.value = textNode.textContent;
-  textNode.parentElement.replaceChild(newInput, textNode);
+  newInput.value = element.textContent;
+
+  newInput.dataset.formerTagName = element.tagName;
+  for (const attribute of element.attributes) {
+    if (attributesToKeep[attribute.name]) {
+      newInput.setAttribute(attribute.name, attribute.value);
+    }
+    else {
+      newInput.setAttribute(
+        attributeDataKey + attribute.name,
+        attribute.value
+      );
+    }
+  }
+
+  element.parentElement.replaceChild(newInput, element);
 };
 
-const finishEditing = (inputEl) => {
-  const newNode = document.createTextNode(inputEl.value);
-  inputEl.parentElement.replaceChild(newNode, inputEl);
+// Replaces `inputEl` with its original element (performs the inverse of
+// `editElement`).
+const finishEditing = (inputEl, attributesToKeep = Object.create(null)) => {
+  const newElement = document.createElement(inputEl.dataset.formerTagName);
+  newElement.textContent = inputEl.value;
+
+  for (const attribute of inputEl.attributes) {
+    if (attributesToKeep[attribute.name]) {
+      newElement.setAttribute(attribute.name, attribute.value);
+    }
+    else if (attribute.name.startsWith(attributeDataKey)) {
+      newElement.setAttribute(
+        attribute.name.substring(attributeDataKey.length),
+        attribute.value
+      );
+    }
+  }
+
+  inputEl.parentElement.replaceChild(newElement, inputEl);
 };
 
 const finishEditingAll = () => {
