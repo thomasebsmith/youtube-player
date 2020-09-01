@@ -43,11 +43,31 @@ const createPlaylistEl = (playlist, id) => {
   const listEl = document.createElement("ol");
   for (const video of playlist.list) {
     const videoEl = document.createElement("li");
-    const linkEl = document.createElement("a");
+
+    let linkEl = document.createElement("a");
     linkEl.textContent = video.name;
     linkEl.setAttribute("href", video.getURL());
     linkEl.setAttribute("target", "_blank");
+
+    const editButtonEl = document.createElement("button");
+    editButtonEl.textContent = "Edit";
+    editButtonEl.setAttribute("type", "button");
+
+    let editingEnabled = false;
+    editButtonEl.addEventListener("click", () => {
+      if (editingEnabled) {
+        linkEl = finishEditing(linkEl);
+        editButtonEl.textContent = "Edit";
+      }
+      else {
+        linkEl = editElement(linkEl);
+        editButtonEl.textContent = "Done";
+      }
+      editingEnabled = !editingEnabled;
+    });
+
     videoEl.appendChild(linkEl);
+    videoEl.appendChild(editButtonEl);
     videoEl.setAttribute("title", video.description);
     videoEl.dataset.id = video.id;
     listEl.appendChild(videoEl);
@@ -98,6 +118,7 @@ const editElement = (element, attributesToKeep = Object.create(null)) => {
   }
 
   element.parentElement.replaceChild(newInput, element);
+  return newInput;
 };
 
 // Replaces `inputEl` with its original element (performs the inverse of
@@ -119,6 +140,7 @@ const finishEditing = (inputEl, attributesToKeep = Object.create(null)) => {
   }
 
   inputEl.parentElement.replaceChild(newElement, inputEl);
+  return newElement;
 };
 
 const finishEditingAll = () => {
@@ -140,8 +162,9 @@ const retrieveOptions = () => {
     const playlistListEl = el.querySelector("ol");
     if (playlistListEl !== null) {
       for (const li of playlistListEl.children) {
+        const link = li.querySelector(":scope > a");
         videos.push(new Video(
-          li.textContent, // name
+          link.textContent, // name
           li.getAttribute("title"), // description
           li.dataset.id // id
         ));
