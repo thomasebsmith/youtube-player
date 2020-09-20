@@ -3,6 +3,8 @@ const inOrderRadioEl = document.getElementById("inOrderRadio");
 const playlistsEl = document.getElementById("playlists");
 const randomRadioEl = document.getElementById("randomRadio");
 
+let areUnsavedEdits = false;
+
 // Creates a div that contains the information (title, songs, etc.) for one
 //  playlist in editable HTML. Appends this div to #playlists.
 const createPlaylistEl = (playlist, id) => {
@@ -123,7 +125,11 @@ const editElement = (element, attributesToKeep = Object.create(null)) => {
 
 // Replaces `inputEl` with its original element (performs the inverse of
 // `editElement`).
-const finishEditing = (inputEl, attributesToKeep = Object.create(null)) => {
+const finishEditing = (
+      inputEl,
+      attributesToKeep = Object.create(null),
+      dontCheckUnsaved = false
+    ) => {
   const newElement = document.createElement(inputEl.dataset.formerTagName);
   newElement.textContent = inputEl.value;
 
@@ -140,13 +146,26 @@ const finishEditing = (inputEl, attributesToKeep = Object.create(null)) => {
   }
 
   inputEl.parentElement.replaceChild(newElement, inputEl);
+  
+  if (!dontCheckUnsaved) {
+    checkAreUnsavedEdits().then(areUnsaved => {
+      areUnsavedEdits = areUnsaved;
+    });
+  }
+
   return newElement;
 };
 
-const finishEditingAll = () => {
+const finishEditingAll = (dontCheckUnsaved = false) => {
   const editingElements = [...document.querySelectorAll("input.editing")];
   for (const element of editingElements) {
-    finishEditing(element);
+    finishEditing(element, Object.create(null), true);
+  }
+
+  if (!dontCheckUnsaved) {
+    checkAreUnsavedEdits().then(areUnsaved => {
+      areUnsavedEdits = areUnsaved;
+    });
   }
 };
 
@@ -208,6 +227,26 @@ const useBackup = (backup) => {
   });
 };
 
+const checkAreUnsavedEdits = async () => {
+  const [savedPlaylists, savedOptions] = await Promise.all([
+    storage.getPlaylists(),
+    storage.getOptions()
+  ]);
+
+  const {
+    playlists: editedPlaylists,
+    options: editedOptions
+  } = retrieveOptions();
+
+  return !utils.deepEqual(savedOptions, editedOptions) ||
+         !utils.deepEqual(savedPlaylists, editedPlaylists, (p1, p2) => {
+           if (p1 instanceof Playlist && p2 instanceof Playlist) {
+             return p1.equals(p2);
+           }
+           return null;
+         });
+};
+
 // Initialize the page based on the options and playlists from storage.
 Promise.all([
   storage.getOptions(),
@@ -225,4 +264,10 @@ Promise.all([
       storage.setPlaylists(playlists)
     ]);
   });
+});
+
+window.addEventListener("beforeunload", (event) => {
+  if (areUnsavedEdits) {
+    event.preventDefault();
+  }
 });

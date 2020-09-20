@@ -47,6 +47,11 @@
         id: this.id
       };
     }
+    equals(otherVideo) {
+      return this.name === otherVideo.name &&
+             this.description === otherVideo.description &&
+             this.id === otherVideo.id;
+    }
   }
 
   global.Video = Video;

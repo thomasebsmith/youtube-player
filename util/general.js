@@ -2,7 +2,21 @@
   // REQUIRES: obj1 and obj2 do not have reference cycles.
   // Returns true iff obj1 and obj2 are primitives with the same value
   // or arrays/objects for which each element/key-value pair is deepEqual.
-  const deepEqual = (obj1, obj2) => {
+  //
+  // Optionally, `compare` can be provided as a function that takes two values
+  // and return true if they are equal, false if they are not equal, or null
+  // if they should instead be compared using deep equality.
+  const deepEqual = (obj1, obj2, compare = null) => {
+    if (typeof compare === "function") {
+      switch (compare(obj1, obj2)) {
+        case true:
+          return true;
+        case false:
+          return false;
+        default:
+          break;
+      }
+    }
     if (typeof obj1 !== typeof obj2) {
       return false;
     }
@@ -12,7 +26,7 @@
         return false;
       }
       for (let i = 0; i < obj1.length; ++i) {
-        if (!deepEqual(obj1[i], obj2[i])) {
+        if (!deepEqual(obj1[i], obj2[i], compare)) {
           return false;
         }
       }
@@ -24,7 +38,7 @@
       const keys = new global.Set(keysObj1.concat(keysObj2));
 
       for (const key of keys) {
-        if (!deepEqual(obj1[key], obj2[key])) {
+        if (!deepEqual(obj1[key], obj2[key], compare)) {
           return false;
         }
       }

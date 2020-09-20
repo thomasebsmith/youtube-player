@@ -1,4 +1,4 @@
-// REQUIRES: util/video.js is already imported.
+// REQUIRES: util/video.js and util/general.js are already imported.
 (function(global) {
   // REQUIRES: i < array.length
   //           j < array.length
@@ -128,6 +128,19 @@
       let ordering = Array(this.list.length).fill(0).map((_, i) => i);
       ordering = shuffled(ordering);
       return new PlaylistStatus(this, ordering);
+    }
+    equals(otherPlaylist) {
+      const listsTheSame = global.utils.deepEqual(
+        this.list, otherPlaylist.list, (v1, v2) => {
+          if (v1 instanceof global.Video && v2 instanceof global.Video) {
+            return v1.equals(v2);
+          }
+          return null;
+        }
+      );
+      return listsTheSame &&
+             this.name === otherPlaylist.name &&
+             this.preference === otherPlaylist.preference;
     }
   }
   PlaylistClass = Playlist;
