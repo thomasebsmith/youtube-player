@@ -50,6 +50,7 @@ const createPlaylistEl = (playlist, id) => {
     linkEl.textContent = video.name;
     linkEl.setAttribute("href", video.getURL());
     linkEl.setAttribute("target", "_blank");
+    linkEl.setAttribute("title", video.description);
 
     const editButtonEl = document.createElement("button");
     editButtonEl.textContent = "Edit";
@@ -62,7 +63,7 @@ const createPlaylistEl = (playlist, id) => {
         editButtonEl.textContent = "Edit";
       }
       else {
-        linkEl = editElement(linkEl);
+        linkEl = editElement(linkEl, {"title": true});
         editButtonEl.textContent = "Done";
       }
       editingEnabled = !editingEnabled;
@@ -70,7 +71,6 @@ const createPlaylistEl = (playlist, id) => {
 
     videoEl.appendChild(linkEl);
     videoEl.appendChild(editButtonEl);
-    videoEl.setAttribute("title", video.description);
     videoEl.dataset.id = video.id;
     listEl.appendChild(videoEl);
   }
@@ -99,16 +99,29 @@ const loadOptions = (options, playlists) => {
 const attributeDataKey  = "data-former-attribute-";
 
 // Replaces `element` with an <input> element containing `element`'s text.
-// All attributes (except those in attributesToKeep) are stored as data-
-// attributes for restoring later.
-const editElement = (element, attributesToKeep = Object.create(null)) => {
+// All attributes (except those in attributesToEdit or attributesToKeep)
+// are stored as data- attributes for restoring later.
+// All attributes in attributesToEdit are added as extra <input> elements.
+const editElement = (element,
+                     attributesToEdit = Object.create(null),
+                     attributesToKeep = Object.create(null)
+                    ) => {
+  const container = document.createElement("div");
+  container.classList.add("editing");
+
   const newInput = document.createElement("input");
-  newInput.classList.add("editing");
   newInput.value = element.textContent;
+  container.appendChild(newInput);
 
   newInput.dataset.formerTagName = element.tagName;
   for (const attribute of element.attributes) {
-    if (attributesToKeep[attribute.name]) {
+    if (attributesToEdit[attribute.name]) {
+      const newAttributeInput = document.createElement("input");
+      newAttributeInput.dataset.formerAttributeName = attribute.name;
+      newAttributeInput.value = attribute.value;
+      container.appendChild(newAttributeInput);
+    }
+    else if (attributesToKeep[attribute.name]) {
       newInput.setAttribute(attribute.name, attribute.value);
     }
     else {
@@ -119,17 +132,25 @@ const editElement = (element, attributesToKeep = Object.create(null)) => {
     }
   }
 
-  element.parentElement.replaceChild(newInput, element);
-  return newInput;
+  element.parentElement.replaceChild(container, element);
+  return container;
 };
 
-// Replaces `inputEl` with its original element (performs the inverse of
+const updateUnsavedEdits = () => {
+  return checkAreUnsavedEdits().then(areUnsaved => {
+    areUnsavedEdits = areUnsaved;
+  });
+};
+
+// Replaces `containerEl` with its original element (performs the inverse of
 // `editElement`).
 const finishEditing = (
-      inputEl,
+      containerEl,
       attributesToKeep = Object.create(null),
       dontCheckUnsaved = false
     ) => {
+  const inputEl = [...containerEl.children]
+                    .filter(x => utils.hasProp(x.dataset, "formerTagName"))[0]
   const newElement = document.createElement(inputEl.dataset.formerTagName);
   newElement.textContent = inputEl.value;
 
@@ -145,27 +166,30 @@ const finishEditing = (
     }
   }
 
-  inputEl.parentElement.replaceChild(newElement, inputEl);
+  for (const el of containerEl.children) {
+    if (!utils.hasProp(el.dataset, "formerAttributeName")) {
+      continue;
+    }
+    newElement.setAttribute(el.dataset.formerAttributeName, el.value);
+  }
+
+  containerEl.parentElement.replaceChild(newElement, containerEl);
   
   if (!dontCheckUnsaved) {
-    checkAreUnsavedEdits().then(areUnsaved => {
-      areUnsavedEdits = areUnsaved;
-    });
+    updateUnsavedEdits();
   }
 
   return newElement;
 };
 
 const finishEditingAll = (dontCheckUnsaved = false) => {
-  const editingElements = [...document.querySelectorAll("input.editing")];
+  const editingElements = [...document.querySelectorAll(".editing")];
   for (const element of editingElements) {
     finishEditing(element, Object.create(null), true);
   }
 
   if (!dontCheckUnsaved) {
-    checkAreUnsavedEdits().then(areUnsaved => {
-      areUnsavedEdits = areUnsaved;
-    });
+    updateUnsavedEdits();
   }
 };
 
@@ -184,7 +208,7 @@ const retrieveOptions = () => {
         const link = li.querySelector(":scope > a");
         videos.push(new Video(
           link.textContent, // name
-          li.getAttribute("title"), // description
+          link.getAttribute("title"), // description
           li.dataset.id // id
         ));
       }
@@ -262,7 +286,9 @@ Promise.all([
     Promise.all([
       storage.setOptions(options),
       storage.setPlaylists(playlists)
-    ]);
+    ]).then(() => {
+      return updateUnsavedEdits();
+    });
   });
 });
 

@@ -1,4 +1,6 @@
 (function(global) {
+  const Object = ({}).constructor;
+
   // REQUIRES: obj1 and obj2 do not have reference cycles.
   // Returns true iff obj1 and obj2 are primitives with the same value
   // or arrays/objects for which each element/key-value pair is deepEqual.
@@ -33,8 +35,8 @@
       return true;
     }
     else if (typeof obj1 === "object") {
-      const keysObj1 = global.Object.keys(obj1);
-      const keysObj2 = global.Object.keys(obj2);
+      const keysObj1 = Object.keys(obj1);
+      const keysObj2 = Object.keys(obj2);
       const keys = new global.Set(keysObj1.concat(keysObj2));
 
       for (const key of keys) {
@@ -49,7 +51,12 @@
     }
   };
 
+  const hasProp = (obj, prop) => {
+    return Object.prototype.hasOwnProperty.call(obj, prop);
+  };
+
   global.utils = {
     deepEqual,
+    hasProp,
   };
 })(this);
