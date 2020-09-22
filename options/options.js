@@ -96,6 +96,12 @@ const loadOptions = (options, playlists) => {
   }
 };
 
+const updateUnsavedEdits = () => {
+  return checkAreUnsavedEdits().then(areUnsaved => {
+    areUnsavedEdits = areUnsaved;
+  });
+};
+
 const attributeDataKey  = "data-former-attribute-";
 
 // Replaces `element` with an <input> element containing `element`'s text.
@@ -132,14 +138,17 @@ const editElement = (element,
     }
   }
 
+  const deleteButton = document.createElement("button");
+  deleteButton.textContent = "Delete";
+  deleteButton.addEventListener("click", () => {
+    const listElement = container.parentElement;
+    listElement.parentElement.removeChild(listElement);
+    updateUnsavedEdits();
+  });
+  container.appendChild(deleteButton);
+
   element.parentElement.replaceChild(container, element);
   return container;
-};
-
-const updateUnsavedEdits = () => {
-  return checkAreUnsavedEdits().then(areUnsaved => {
-    areUnsavedEdits = areUnsaved;
-  });
 };
 
 // Replaces `containerEl` with its original element (performs the inverse of
