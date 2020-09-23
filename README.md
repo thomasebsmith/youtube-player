@@ -17,6 +17,16 @@ YouTube Player is not yet available on addons.mozilla.org. To use it,
 enable developer mode and load the add-on manually in about:debugging.
 Unfortunately, the add-on must be reloaded every time the browser is restarted.
 
+## Backing Up Your Playlists
+A full backup solution is planned for v0.4. However, for now, all playlists
+and settings can be backed up by going to YouTube Player > Manage Extension >
+Preferences. Then, press Ctrl+Opt+k (or Cmd+Opt+k on MacOS). In the console,
+type `getBackup().then(x => console.warn(x))`. Then, copy the output
+highlighted in yellow. To restore this backup, type
+`useBackup(\`[paste backup here]\`)` in the console.
+
+Note: this is only recommended for advanced users.
+
 ## Version History
 ##### v0.1
  - Ability to create YouTube playlists
@@ -39,5 +49,5 @@ Unfortunately, the add-on must be reloaded every time the browser is restarted.
 
 ##### v0.4
  - Ability to auto-generate playlists based on browsing
- - Ability to save and restore playlists
+ - Ability to save and restore playlists (partially implemented in v0.2)
  - Ability to add start/stop times for individual videos
