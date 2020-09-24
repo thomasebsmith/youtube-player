@@ -2,6 +2,7 @@ const formEl = document.getElementById("options-form");
 const inOrderRadioEl = document.getElementById("inOrderRadio");
 const playlistsEl = document.getElementById("playlists");
 const randomRadioEl = document.getElementById("randomRadio");
+const tabsEl = document.getElementById("tabs");
 
 let areUnsavedEdits = false;
 
@@ -304,5 +305,27 @@ Promise.all([
 window.addEventListener("beforeunload", (event) => {
   if (areUnsavedEdits) {
     event.preventDefault();
+  }
+});
+
+tabsEl.addEventListener("click", (event) => {
+  if (utils.hasProp(event.target.dataset, "tabName")) {
+    const tabName = event.target.dataset.tabName;
+
+    if (!event.target.classList.contains("selected")) {
+      const selectedTab = document.querySelector("#tabs > .selected");
+      if (selectedTab !== null) {
+        selectedTab.classList.remove("selected");
+      }
+
+      const selectedSection = document.querySelector("#content > .selected");
+      if (selectedSection !== null) {
+        selectedSection.classList.remove("selected");
+      }
+
+      event.target.classList.add("selected");
+      const newSection = document.getElementsByClassName("tab-" + tabName)[0];
+      newSection.classList.add("selected");
+    }
   }
 });
