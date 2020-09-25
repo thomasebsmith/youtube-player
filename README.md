@@ -9,8 +9,9 @@ early development.
 Currently, YouTube Player allows you to create multiple playlists, which
 can then be played in a random or fixed order in one or more tabs by
 right-clicking on a tab that is navigated to youtube.com.
-The playlists can be modified by clicking on the add-on icon
+The playlists can be added to clicking on the add-on icon
 to bring up a small popup.
+The playlists can be modified by going to the add-on options page.
 
 ## Installation
 YouTube Player is not yet available on addons.mozilla.org. To use it,
