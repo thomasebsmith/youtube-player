@@ -35,14 +35,13 @@ Note: this is only recommended for advanced users.
  - Ability to play YouTube playlists
  - Ability to have multiple playlists
 
-## Future Versions
-##### v0.2 (in development)
- - Ability to customize playback behavior via options page (complete)
- - Ability to view and edit existing playlists (in progress)
+##### v0.2
+ - Ability to customize playback behavior via options page
+ - Ability to view and edit existing playlists
  - Ability to view and edit names and descriptions for videos in playlists
-   (complete)
- - Better code quality, including more comments (complete)
+ - Better code quality, including more comments
 
+## Future Versions
 ##### v0.3
  - Improvements for behavior when the user navigates while a playlist is
    playing
@@ -53,3 +52,4 @@ Note: this is only recommended for advanced users.
  - Ability to auto-generate playlists based on browsing
  - Ability to save and restore playlists (partially implemented in v0.2)
  - Ability to add start/stop times for individual videos
+ - Ability to reorder playlists without deleting and re-adding
