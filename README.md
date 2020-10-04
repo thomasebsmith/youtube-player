@@ -42,7 +42,7 @@ Note: this is only recommended for advanced users.
  - Better code quality, including more comments
 
 ## Future Versions
-##### v0.3
+##### v0.3 (In Progress)
  - Improvements for behavior when the user navigates while a playlist is
    playing
  - Improvements for behavior when YouTube doesn't load properly
