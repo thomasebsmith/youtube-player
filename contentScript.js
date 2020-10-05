@@ -21,11 +21,21 @@ browser.runtime.onMessage.addListener(({playNextURL, forceNow}) => {
 // If a <video> element exists on the page, go to the next video when it ends.
 const videoEl = document.querySelector("video");
 
+const handleVideoMaybeDone = () => {
+  const endScreen = document.querySelector(".html5-endscreen");
+  if (endScreen !== null && endScreen.style.display !== "none") {
+    handleVideoDone();
+  }
+};
+
+const handleVideoDone = () => {
+  videoDone = true;
+  if (nextVideo !== null) {
+    goToNextVideo();
+  }
+};
+
 if (videoEl !== null) {
-  videoEl.addEventListener("ended", () => {
-    videoDone = true;
-    if (nextVideo !== null) {
-      goToNextVideo();
-    }
-  });
+  videoEl.addEventListener("ended", handleVideoDone);
+  videoEl.addEventListener("pause", handleVideoMaybeDone);
 }
