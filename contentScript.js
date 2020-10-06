@@ -39,3 +39,8 @@ if (videoEl !== null) {
   videoEl.addEventListener("ended", handleVideoDone);
   videoEl.addEventListener("pause", handleVideoMaybeDone);
 }
+else {
+  setTimeout(() => {
+    goToNextVideo();
+  }, 1500);
+}
