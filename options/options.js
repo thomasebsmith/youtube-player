@@ -64,7 +64,9 @@ const createPlaylistEl = (playlist, id) => {
         editButtonEl.textContent = "Edit";
       }
       else {
-        linkEl = editElement(linkEl, {"title": true});
+        linkEl = editElement(linkEl, {"title": {
+          placeholder: "Description"
+        }}, Object.create(null), "Title");
         editButtonEl.textContent = "Done";
       }
       editingEnabled = !editingEnabled;
@@ -111,13 +113,17 @@ const attributeDataKey  = "data-former-attribute-";
 // All attributes in attributesToEdit are added as extra <input> elements.
 const editElement = (element,
                      attributesToEdit = Object.create(null),
-                     attributesToKeep = Object.create(null)
+                     attributesToKeep = Object.create(null),
+                     placeholder = null
                     ) => {
   const container = document.createElement("div");
   container.classList.add("editing");
 
   const newInput = document.createElement("input");
   newInput.value = element.textContent;
+  if (placeholder !== null) {
+    newInput.setAttribute("placeholder", placeholder);
+  }
   container.appendChild(newInput);
 
   newInput.dataset.formerTagName = element.tagName;
@@ -126,6 +132,16 @@ const editElement = (element,
       const newAttributeInput = document.createElement("input");
       newAttributeInput.dataset.formerAttributeName = attribute.name;
       newAttributeInput.value = attribute.value;
+
+      const editingData = attributesToEdit[attribute.name];
+      if (typeof editingData === "object") {
+        if (utils.hasProp(editingData, "placeholder")) {
+          newAttributeInput.setAttribute(
+            "placeholder",
+            editingData.placeholder
+          );
+        }
+      }
       container.appendChild(newAttributeInput);
     }
     else if (attributesToKeep[attribute.name]) {

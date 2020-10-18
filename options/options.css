@@ -66,3 +66,18 @@ a {
 a:hover {
   text-decoration: underline;
 }
+
+input[type=text] {
+  border-radius: 5px;
+  border: 1px solid lightgray;
+  padding: 5px;
+}
+
+button {
+  margin-left: 5px;
+  padding: 3px;
+}
+
+button:enabled:hover {
+  cursor: pointer;
+}
