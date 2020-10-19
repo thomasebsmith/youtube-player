@@ -1,3 +1,4 @@
+/* Shared styles */
 :root {
   --tab-border-radius: 5px;
   --tab-padding: 5px;
@@ -9,10 +10,29 @@ body {
   margin: 0;
 }
 
+a {
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+button {
+  margin-left: 5px;
+  padding: 3px;
+}
+
+button:enabled:hover {
+  cursor: pointer;
+}
+
+/* Heading */
 header > h1 {
   font-size: 1.5em;
 }
 
+/* Tabs */
 #tabs {
   border-bottom: 1px solid black;
   border-top: 1px solid black;
@@ -49,22 +69,9 @@ header > h1 {
   display: none;
 }
 
+/* Options form inputs */
 #options-form > input[type=submit] {
   margin-top: 10px;
-}
-
-.playlist {
-  border-top: 1px solid black;
-  margin-top: 20px;
-  padding-top: 20px;
-}
-
-a {
-  text-decoration: none;
-}
-
-a:hover {
-  text-decoration: underline;
 }
 
 input[type=text] {
@@ -73,11 +80,9 @@ input[type=text] {
   padding: 5px;
 }
 
-button {
-  margin-left: 5px;
-  padding: 3px;
-}
-
-button:enabled:hover {
-  cursor: pointer;
+/* Playlists */
+.playlist {
+  border-top: 1px solid black;
+  margin-top: 20px;
+  padding-top: 20px;
 }
