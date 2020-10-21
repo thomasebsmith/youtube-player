@@ -4,18 +4,17 @@ let currentPlaylists = Object.create(null);
 
 
 // Sends a message to the tab with the given tabId, telling it to play the
-//  next video, either immediately (when forceNow is true) or when the current
-//  video is done playing.
-const nextInPlaylist = (tabId, forceNow = false) => {
+//  video with the given offset, either immediately (when forceNow is true)
+//  or when the current video is done playing.
+const playInTab = (tabId, offset, forceNow = false) => {
   return browser.tabs.executeScript(tabId, {
     file: "/contentScript.js"
   }).then(_ => {
     const playlist = currentPlaylists[tabId];
     browser.tabs.sendMessage(tabId, {
-      playNextURL: playlist.currentVideo().getURL(),
+      playNextURL: playlist.videoWithOffset(offset).getURL(),
       forceNow: forceNow
     });
-    playlist.nextVideo();
   });
 };
 
@@ -33,7 +32,7 @@ const createContextMenuItem = (playlists, i) => {
         const playlist = playlists[i];
         if (playlist.list.length > 0) {
           currentPlaylists[tab.id] = playlist.byPreference();
-          nextInPlaylist(tab.id, true);
+          playInTab(tab.id, 0, true);
         }
       });
     },
@@ -63,7 +62,11 @@ storage.onPlaylistUpdate((playlists) => {
 //  video.
 browser.tabs.onUpdated.addListener((tabId, changeInfo, tab) => {
   if (changeInfo.url && currentPlaylists[tabId]) {
-    nextInPlaylist(tabId);
+    const nextURL = currentPlaylists[tabId].videoWithOffset(+1).getURL();
+    if (changeInfo.url === nextURL) {
+      currentPlaylists[tabId].nextVideo();
+    }
+    playInTab(tabId, +1, false);
   }
 }, {
   urls: ["https://www.youtube.com/*"]

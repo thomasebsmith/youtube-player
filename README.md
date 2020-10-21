@@ -44,7 +44,7 @@ Note: this is only recommended for advanced users.
 ## Future Versions
 ##### v0.3 (In Progress)
  - Improvements for behavior when the user navigates while a playlist is
-   playing
+   playing (complete)
  - Improvements for behavior when YouTube doesn't load properly (complete)
  - Keyboard shortcuts to start playlists
  - Possibly, an HTML overlay that shows the status of the current playlist.
