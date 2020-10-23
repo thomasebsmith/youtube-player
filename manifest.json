@@ -29,6 +29,12 @@
       "background.js"
     ]
   },
+  "content_scripts": [
+    {
+      "matches": ["https://www.youtube.com/*"],
+      "js": ["util/video.js", "util/playlist.js"]
+    }
+  ],
   "browser_action": {
     "default_icon": "icons/32.png",
     "default_title": "YouTube Player",
