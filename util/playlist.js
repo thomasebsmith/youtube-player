@@ -69,6 +69,19 @@
     nextVideo() {
       this.index = (this.index + 1) % this.indices.length;
     }
+    toObject() {
+      return {
+        playlist: this.playlist.toObject(),
+        indices: this.indices.slice(),
+        index: this.index,
+      };
+    }
+    static fromObject(obj) {
+      const result =
+        new PlaylistStatus(Playlist.fromObject(obj.playlist), obj.indices);
+      result.index = obj.index;
+      return result;
+    }
   }
 
   class Playlist {

@@ -13,7 +13,8 @@ const playInTab = (tabId, offset, forceNow = false) => {
     const playlist = currentPlaylists[tabId];
     browser.tabs.sendMessage(tabId, {
       playNextURL: playlist.videoWithOffset(offset).getURL(),
-      forceNow: forceNow
+      forceNow: forceNow,
+      playlistStatus: playlist.toObject(),
     });
   });
 };

@@ -46,8 +46,8 @@ Note: this is only recommended for advanced users.
  - Improvements for behavior when the user navigates while a playlist is
    playing (complete)
  - Improvements for behavior when YouTube doesn't load properly (complete)
+ - An HTML overlay that shows the status of the current playlist (complete)
  - Keyboard shortcuts to start playlists
- - Possibly, an HTML overlay that shows the status of the current playlist.
 
 ##### v0.4
  - Ability to auto-generate playlists based on browsing
