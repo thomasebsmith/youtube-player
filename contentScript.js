@@ -15,6 +15,38 @@ const showStatus = (playlistStatus) => {
   const overlay = document.createElement("div");
   overlay.setAttribute("id", id);
 
+  let overlayIsDragging = false;
+  let dragStart = {x: null, y: null};
+  let overlayStart = {x: null, y: null};
+  const updatePosition = (x, y) => {
+    overlay.style.left = `${x - dragStart.x + overlayStart.x}px`;
+    overlay.style.top = `${y - dragStart.y + overlayStart.y}px`;
+  };
+  overlay.addEventListener("pointerdown", (event) => {
+    overlayIsDragging = true;
+    overlayStart.x = parseInt(overlay.style.left, 10),
+    overlayStart.y = parseInt(overlay.style.top, 10),
+    dragStart.x = event.clientX;
+    dragStart.y = event.clientY;
+    document.body.style.userSelect = "none";
+  });
+  document.addEventListener("pointermove", (event) => {
+    if (overlayIsDragging) {
+      updatePosition(event.clientX, event.clientY);
+    }
+  });
+  document.addEventListener("pointerup", (event) => {
+    if (overlayIsDragging) {
+      updatePosition(event.clientX, event.clientY);
+    }
+    overlayIsDragging = false;
+    overlayStart.x = null;
+    overlayStart.y = null;
+    dragStart.x = null;
+    dragStart.y = null;
+    document.body.style.userSelect = "auto";
+  });
+
   overlay.style.backgroundColor = "white";
   overlay.style.border = "1px solid lightgray";
   overlay.style.boxShadow = "3px 3px 3px rgb(30, 30, 30, 0.8)";
@@ -25,6 +57,8 @@ const showStatus = (playlistStatus) => {
   overlay.style.left = "20px";
   overlay.style.top = "75px";
   overlay.style.zIndex = "999999";
+
+  overlay.style.cursor = "move";
 
   const currentName = document.createElement("p");
   currentName.textContent = currentVideo.name;

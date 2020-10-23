@@ -8,7 +8,7 @@
   "browser_specific_settings": {
     "gecko": {
       "id": "ytPlayer@thomasebsmith.github.io",
-      "strict_min_version": "55.0"
+      "strict_min_version": "59.0"
     }
   },
   "icons": {
