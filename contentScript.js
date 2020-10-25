@@ -51,6 +51,13 @@ const showStatus = (playlistStatus) => {
   overlay.style.border = "1px solid lightgray";
   overlay.style.boxShadow = "3px 3px 3px rgb(30, 30, 30, 0.8)";
 
+  if (window.matchMedia("(prefers-color-scheme: dark)").matches) {
+    overlay.style.backgroundColor = "#333333";
+    overlay.style.borderColor = "white";
+    overlay.style.boxShadow = "3px 3px 3px rgb(100, 100, 100, 0.8)";
+    overlay.style.color = "#EEEEEE";
+  }
+
   overlay.style.padding = "4px";
 
   overlay.style.position = "fixed";
