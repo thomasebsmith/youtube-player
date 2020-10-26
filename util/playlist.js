@@ -63,11 +63,13 @@
       return this.playlist.videoAt(this.indices[this.index]);
     }
     videoWithOffset(offset) {
-      const index = this.indices[(this.index + offset) % this.indices.length];
+      const index = this.indices[(this.index + offset + this.indices.length) %
+        this.indices.length];
       return this.playlist.videoAt(index);
     }
     goTo(offset) {
-      this.index = (this.index + offset) % this.indices.length;
+      this.index = (this.index + offset + this.indices.length) %
+        this.indices.length;
     }
     nextVideo() {
       this.goTo(+1);

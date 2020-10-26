@@ -14,7 +14,7 @@ const goToNextVideo = () => {
 const goToPreviousVideo = () => {
   browser.runtime.sendMessage({playlistDelta: -1}).then(() => {
     currentStatus.goTo(-1);
-    location.replace(currentStatus.currentVideo().url);
+    location.replace(currentStatus.currentVideo().getURL());
   });
 };
 
@@ -27,11 +27,17 @@ const showStatus = (playlistStatus) => {
 
   const overlayLeft = document.createElement("div");
   overlayLeft.style.display = "inline-block";
+
   const previousButton = document.createElement("button");
+  previousButton.style.background = "none";
+  previousButton.style.border = "none";
   previousButton.style.fontSize = "24pt";
+  previousButton.style.letterSpacing = "-5pt";
+  previousButton.style.cursor = "pointer";
   previousButton.textContent = "◀◀";
   previousButton.addEventListener("click", () => goToPreviousVideo());
   overlayLeft.appendChild(previousButton);
+
   overlay.appendChild(overlayLeft);
 
   const overlayMiddle = document.createElement("div");
@@ -40,11 +46,17 @@ const showStatus = (playlistStatus) => {
 
   const overlayRight = document.createElement("div");
   overlayRight.style.display = "inline-block";
+
   const nextButton = document.createElement("button");
+  nextButton.style.background = "none";
+  nextButton.style.border = "none";
   nextButton.style.fontSize = "24pt";
+  nextButton.style.letterSpacing = "-5pt";
+  nextButton.style.cursor = "pointer";
   nextButton.textContent = "▶▶";
   nextButton.addEventListener("click", () => goToNextVideo());
   overlayRight.appendChild(nextButton);
+
   overlay.appendChild(overlayRight);
 
   let overlayIsDragging = false;
@@ -88,6 +100,8 @@ const showStatus = (playlistStatus) => {
     overlay.style.borderColor = "white";
     overlay.style.boxShadow = "3px 3px 3px rgb(100, 100, 100, 0.8)";
     overlay.style.color = "#EEEEEE";
+    previousButton.style.color = "#EEEEEE";
+    nextButton.style.color = "#EEEEEE";
   }
 
   overlay.style.padding = "4px";
@@ -134,7 +148,7 @@ browser.runtime.onMessage.addListener(({
   }
   else {
     showStatus(PlaylistStatus.fromObject(playlistStatus));
-    currentStatus = playlistStatus;
+    currentStatus = PlaylistStatus.fromObject(playlistStatus);
   }
 });
 
