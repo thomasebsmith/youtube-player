@@ -4,8 +4,18 @@ let nextVideo = null;
 // Whether the video on this page has finished playing.
 let videoDone = false;
 
+// The current PlaylistStatus.
+let currentStatus = null;
+
 const goToNextVideo = () => {
   location.replace(nextVideo);
+};
+
+const goToPreviousVideo = () => {
+  browser.runtime.sendMessage({playlistDelta: -1}).then(() => {
+    currentStatus.goTo(-1);
+    location.replace(currentStatus.currentVideo().url);
+  });
 };
 
 const showStatus = (playlistStatus) => {
@@ -15,6 +25,28 @@ const showStatus = (playlistStatus) => {
   const overlay = document.createElement("div");
   overlay.setAttribute("id", id);
 
+  const overlayLeft = document.createElement("div");
+  overlayLeft.style.display = "inline-block";
+  const previousButton = document.createElement("button");
+  previousButton.style.fontSize = "24pt";
+  previousButton.textContent = "◀◀";
+  previousButton.addEventListener("click", () => goToPreviousVideo());
+  overlayLeft.appendChild(previousButton);
+  overlay.appendChild(overlayLeft);
+
+  const overlayMiddle = document.createElement("div");
+  overlayMiddle.style.display = "inline-block";
+  overlay.appendChild(overlayMiddle);
+
+  const overlayRight = document.createElement("div");
+  overlayRight.style.display = "inline-block";
+  const nextButton = document.createElement("button");
+  nextButton.style.fontSize = "24pt";
+  nextButton.textContent = "▶▶";
+  nextButton.addEventListener("click", () => goToNextVideo());
+  overlayRight.appendChild(nextButton);
+  overlay.appendChild(overlayRight);
+
   let overlayIsDragging = false;
   let dragStart = {x: null, y: null};
   let overlayStart = {x: null, y: null};
@@ -22,7 +54,7 @@ const showStatus = (playlistStatus) => {
     overlay.style.left = `${x - dragStart.x + overlayStart.x}px`;
     overlay.style.top = `${y - dragStart.y + overlayStart.y}px`;
   };
-  overlay.addEventListener("pointerdown", (event) => {
+  overlayMiddle.addEventListener("pointerdown", (event) => {
     overlayIsDragging = true;
     overlayStart.x = parseInt(overlay.style.left, 10),
     overlayStart.y = parseInt(overlay.style.top, 10),
@@ -70,13 +102,13 @@ const showStatus = (playlistStatus) => {
   const currentName = document.createElement("p");
   currentName.textContent = currentVideo.name;
   currentName.style.fontSize = "16pt";
-  overlay.appendChild(currentName);
+  overlayMiddle.appendChild(currentName);
 
   const position = document.createElement("p");
   position.textContent =
     `${playlistStatus.index + 1} / ${playlistStatus.indices.length}`;
   position.style.fontSize = "12pt";
-  overlay.appendChild(position);
+  overlayMiddle.appendChild(position);
 
   const stylesEl = document.createElement("style");
   document.head.appendChild(stylesEl);
@@ -102,6 +134,7 @@ browser.runtime.onMessage.addListener(({
   }
   else {
     showStatus(PlaylistStatus.fromObject(playlistStatus));
+    currentStatus = playlistStatus;
   }
 });
 

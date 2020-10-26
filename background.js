@@ -77,3 +77,8 @@ browser.tabs.onUpdated.addListener((tabId, changeInfo, tab) => {
 browser.tabs.onRemoved.addListener((tabId, _) => {
   delete currentPlaylists[tabId];
 });
+
+browser.runtime.onMessage.addListener(({playlistDelta}, sender) => {
+  currentPlaylists[sender.tab.id].goTo(playlistDelta);
+  return Promise.resolve();
+});
