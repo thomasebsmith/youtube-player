@@ -42,6 +42,7 @@ const showStatus = (playlistStatus) => {
 
   const overlayMiddle = document.createElement("div");
   overlayMiddle.style.display = "inline-block";
+  overlayMiddle.style.textAlign = "center";
   overlay.appendChild(overlayMiddle);
 
   const overlayRight = document.createElement("div");
