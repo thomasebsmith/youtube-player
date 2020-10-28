@@ -8,7 +8,7 @@ let currentPlaylists = Object.create(null);
 //  or when the current video is done playing.
 const playInTab = (tabId, offset, forceNow = false) => {
   return browser.tabs.executeScript(tabId, {
-    file: "/contentScript.js"
+    file: "/content/script.js"
   }).then(_ => {
     const playlist = currentPlaylists[tabId];
     browser.tabs.sendMessage(tabId, {

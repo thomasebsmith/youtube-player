@@ -19,21 +19,15 @@ const goToPreviousVideo = () => {
 };
 
 const showStatus = (playlistStatus) => {
-  const id = "addon-yt-player-overlay";
   const currentVideo = playlistStatus.currentVideo();
 
   const overlay = document.createElement("div");
-  overlay.setAttribute("id", id);
+  overlay.setAttribute("id", "addon-yt-player-overlay");
 
   const overlayLeft = document.createElement("div");
-  overlayLeft.style.display = "inline-block";
+  overlayLeft.classList.add("left");
 
   const previousButton = document.createElement("button");
-  previousButton.style.background = "none";
-  previousButton.style.border = "none";
-  previousButton.style.fontSize = "24pt";
-  previousButton.style.letterSpacing = "-5pt";
-  previousButton.style.cursor = "pointer";
   previousButton.textContent = "◀◀";
   previousButton.addEventListener("click", () => goToPreviousVideo());
   overlayLeft.appendChild(previousButton);
@@ -41,19 +35,13 @@ const showStatus = (playlistStatus) => {
   overlay.appendChild(overlayLeft);
 
   const overlayMiddle = document.createElement("div");
-  overlayMiddle.style.display = "inline-block";
-  overlayMiddle.style.textAlign = "center";
+  overlayMiddle.classList.add("middle");
   overlay.appendChild(overlayMiddle);
 
   const overlayRight = document.createElement("div");
-  overlayRight.style.display = "inline-block";
+  overlayRight.classList.add("right");
 
   const nextButton = document.createElement("button");
-  nextButton.style.background = "none";
-  nextButton.style.border = "none";
-  nextButton.style.fontSize = "24pt";
-  nextButton.style.letterSpacing = "-5pt";
-  nextButton.style.cursor = "pointer";
   nextButton.textContent = "▶▶";
   nextButton.addEventListener("click", () => goToNextVideo());
   overlayRight.appendChild(nextButton);
@@ -69,8 +57,9 @@ const showStatus = (playlistStatus) => {
   };
   overlayMiddle.addEventListener("pointerdown", (event) => {
     overlayIsDragging = true;
-    overlayStart.x = parseInt(overlay.style.left, 10),
-    overlayStart.y = parseInt(overlay.style.top, 10),
+    const overlayStyles = window.getComputedStyle(overlay);
+    overlayStart.x = parseInt(overlayStyles.getPropertyValue("left"), 10);
+    overlayStart.y = parseInt(overlayStyles.getPropertyValue("top"), 10);
     dragStart.x = event.clientX;
     dragStart.y = event.clientY;
     document.body.style.userSelect = "none";
@@ -92,45 +81,17 @@ const showStatus = (playlistStatus) => {
     document.body.style.userSelect = "auto";
   });
 
-  overlay.style.backgroundColor = "white";
-  overlay.style.border = "1px solid lightgray";
-  overlay.style.boxShadow = "3px 3px 3px rgb(30, 30, 30, 0.8)";
-
-  if (window.matchMedia("(prefers-color-scheme: dark)").matches) {
-    overlay.style.backgroundColor = "#333333";
-    overlay.style.borderColor = "white";
-    overlay.style.boxShadow = "3px 3px 3px rgb(100, 100, 100, 0.8)";
-    overlay.style.color = "#EEEEEE";
-    previousButton.style.color = "#EEEEEE";
-    nextButton.style.color = "#EEEEEE";
-  }
-
-  overlay.style.padding = "4px";
-
-  overlay.style.position = "fixed";
-  overlay.style.left = "20px";
-  overlay.style.top = "75px";
-  overlay.style.zIndex = "999999";
-
-  overlay.style.cursor = "move";
 
   const currentName = document.createElement("p");
+  currentName.classList.add("current-name");
   currentName.textContent = currentVideo.name;
-  currentName.style.fontSize = "16pt";
   overlayMiddle.appendChild(currentName);
 
   const position = document.createElement("p");
+  position.classList.add("position");
   position.textContent =
     `${playlistStatus.index + 1} / ${playlistStatus.indices.length}`;
-  position.style.fontSize = "12pt";
   overlayMiddle.appendChild(position);
-
-  const stylesEl = document.createElement("style");
-  document.head.appendChild(stylesEl);
-  const styles = stylesEl.sheet;
-  styles.insertRule(`:fullscreen #${id} {
-    display: none;
-  }`);
 
   document.body.appendChild(overlay);
 };

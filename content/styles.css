@@ -1,0 +1,54 @@
+:fullscreen #addon-yt-player-overlay {
+  display: none;
+}
+
+#addon-yt-player-overlay {
+  background-color: white;
+  border: 1px solid lightgray;
+  box-shadow: 3px 3px 3px rgb(30, 30, 30, 0.8);
+  cursor: move;
+  left: 20px;
+  padding: 4px;
+  position: fixed;
+  top: 75px;
+  z-index: 999999;
+}
+
+#addon-yt-player-overlay > * {
+  display: inline-block;
+}
+
+#addon-yt-player-overlay > .left > button,
+#addon-yt-player-overlay > .right > button {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 20pt;
+  letter-spacing: -5pt;
+}
+
+#addon-yt-player-overlay > .middle {
+  text-align: center;
+}
+
+#addon-yt-player-overlay > .middle > .current-name {
+  font-size: 16pt;
+}
+
+#addon-yt-player-overlay > .middle > .position {
+  font-size: 12pt;
+}
+
+@media (prefers-color-scheme: dark) {
+  #addon-yt-player-overlay {
+    background-color: #333333;
+    border-color: white;
+    box-shadow: 3px 3px 3px rgb(100, 100, 100, 0.8);
+    color: #EEEEEE;
+  }
+
+  #addon-yt-player-overlay > .left > button,
+  #addon-yt-player-overlay > .right > button {
+    color: #EEEEEE;
+  }
+}
