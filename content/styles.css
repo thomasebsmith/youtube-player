@@ -18,6 +18,10 @@
   display: inline-block;
 }
 
+#addon-yt-player-overlay > .left, #addon-yt-player-overlay > .right {
+  margin-left: -5px;
+}
+
 #addon-yt-player-overlay > .left > button,
 #addon-yt-player-overlay > .right > button {
   background: none;
