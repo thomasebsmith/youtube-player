@@ -51,15 +51,22 @@ const showStatus = (playlistStatus) => {
   let overlayIsDragging = false;
   let dragStart = {x: null, y: null};
   let overlayStart = {x: null, y: null};
+  let overlaySize = {w: null, h: null};
   const updatePosition = (x, y) => {
-    overlay.style.left = `${x - dragStart.x + overlayStart.x}px`;
-    overlay.style.top = `${y - dragStart.y + overlayStart.y}px`;
+    const newLeft = x - dragStart.x + overlayStart.x;
+    const newTop = y - dragStart.y + overlayStart.y;
+    const maxRight = window.innerWidth - overlaySize.w - 20;
+    const maxBottom = window.innerHeight - overlaySize.h;
+    overlay.style.left = `${Math.max(Math.min(newLeft, maxRight), 0)}px`;
+    overlay.style.top = `${Math.max(Math.min(newTop, maxBottom), 0)}px`;
   };
   overlayMiddle.addEventListener("pointerdown", (event) => {
     overlayIsDragging = true;
     const overlayStyles = window.getComputedStyle(overlay);
     overlayStart.x = parseInt(overlayStyles.getPropertyValue("left"), 10);
     overlayStart.y = parseInt(overlayStyles.getPropertyValue("top"), 10);
+    overlaySize.w = parseInt(overlayStyles.getPropertyValue("width"), 10);
+    overlaySize.h = parseInt(overlayStyles.getPropertyValue("height"), 10);
     dragStart.x = event.clientX;
     dragStart.y = event.clientY;
     document.body.style.userSelect = "none";
