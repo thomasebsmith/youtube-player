@@ -46,7 +46,8 @@ Note: this is only recommended for advanced users.
  - Improvements for behavior when the user navigates while a playlist is
    playing (complete)
  - Improvements for behavior when YouTube doesn't load properly (complete)
- - An HTML overlay that shows the status of the current playlist (complete)
+ - An HTML overlay that shows the status of the current playlist and
+   allows users to skip back/forward in a playlist (complete)
  - Keyboard shortcuts to start playlists
 
 ##### v0.4
