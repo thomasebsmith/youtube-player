@@ -41,15 +41,15 @@ Note: this is only recommended for advanced users.
  - Ability to view and edit names and descriptions for videos in playlists
  - Better code quality, including more comments
 
-## Future Versions
-##### v0.3 (In Progress)
+##### v0.3
  - Improvements for behavior when the user navigates while a playlist is
-   playing (complete)
- - Improvements for behavior when YouTube doesn't load properly (complete)
+   playing
+ - Improvements for behavior when YouTube doesn't load properly
  - An HTML overlay that shows the status of the current playlist and
-   allows users to skip back/forward in a playlist (complete)
+   allows users to skip back/forward in a playlist
  - Keyboard shortcuts to start playlists
 
+## Future Versions
 ##### v0.4
  - Ability to auto-generate playlists based on browsing
  - Ability to save and restore playlists (partially implemented in v0.2)

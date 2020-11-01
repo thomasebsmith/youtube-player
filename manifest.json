@@ -2,7 +2,7 @@
   "manifest_version": 2,
   "name": "YouTube Player",
   "author": "Thomas Smith",
-  "version": "0.2",
+  "version": "0.3",
   "description": "Allows playing YouTube playlists without logging in",
   "homepage_url": "https://github.com/thomasebsmith/yt-player",
   "browser_specific_settings": {
