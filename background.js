@@ -2,6 +2,8 @@
 //  currently playing in any tab.
 let currentPlaylists = Object.create(null);
 
+const youtubeMatchURL = "https://www.youtube.com/*";
+
 
 // Sends a message to the tab with the given tabId, telling it to play the
 //  video with the given offset, either immediately (when forceNow is true)
@@ -21,21 +23,25 @@ const playInTab = (tabId, offset, forceNow = false) => {
 
 let playlistMenuItems = [];
 
+const playPlaylist = (tabID, playlistID) => {
+  return storage.getPlaylists().then((playlists) => {
+    const playlist = playlists[playlistID];
+    if (playlist.list.length > 0) {
+      currentPlaylists[tabID] = playlist.byPreference();
+      playInTab(tabID, 0, true);
+    }
+  });
+};
+
 const createContextMenuItem = (playlists, i) => {
   playlistMenuItems[i] = browser.menus.create({
-    documentUrlPatterns: ["https://www.youtube.com/*"],
+    documentUrlPatterns: [youtubeMatchURL],
     icons: {
       "16": "icons/16.png",
       "32": "icons/32.png"
     },
     onclick: (_, tab) => {
-      storage.getPlaylists().then((playlists) => {
-        const playlist = playlists[i];
-        if (playlist.list.length > 0) {
-          currentPlaylists[tab.id] = playlist.byPreference();
-          playInTab(tab.id, 0, true);
-        }
-      });
+      playPlaylist(tab.id, i);
     },
     title: "Start playlist " + playlists[i].name
   });
@@ -70,7 +76,7 @@ browser.tabs.onUpdated.addListener((tabId, changeInfo, tab) => {
     playInTab(tabId, +1, false);
   }
 }, {
-  urls: ["https://www.youtube.com/*"]
+  urls: [youtubeMatchURL]
 });
 
 // Whenever a tab is removed, delete its current playlist (if it exists).
@@ -81,4 +87,44 @@ browser.tabs.onRemoved.addListener((tabId, _) => {
 browser.runtime.onMessage.addListener(({playlistDelta}, sender) => {
   currentPlaylists[sender.tab.id].goTo(playlistDelta);
   return Promise.resolve();
+});
+
+const parseCommand = (name) => {
+  if (name.startsWith("playlist-")) {
+    const number = parseInt(name.substring("playlist-".length), 10);
+    if (!Number.isFinite(number)) {
+      return null;
+    }
+    return {
+      type: "play-playlist",
+      playlistID: number
+    };
+  }
+  return null;
+};
+
+browser.commands.onCommand.addListener((name) => {
+  const command = parseCommand(name);
+  if (command === null) {
+    console.warn("Unknown command " + name);
+    return;
+  }
+
+  switch (command.type) {
+    case "play-playlist":
+      browser.tabs.query({
+        active: true,
+        currentWindow: true,
+        url: youtubeMatchURL
+      }).then((results) => {
+        if (results.length !== 1) {
+          return;
+        }
+        playPlaylist(results[0].id, command.playlistID);
+      });
+      break;
+    default:
+      console.warn("Unknown command type " + command.type);
+      break;
+  }
 });

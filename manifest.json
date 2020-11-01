@@ -44,5 +44,67 @@
   "options_ui": {
     "page": "options/options.html",
     "open_in_tab": true
+  },
+  "commands": {
+    "playlist-0": {
+      "suggested_key": {
+        "default": "Ctrl+Alt+0"
+      },
+      "description": "Play playlist 0"
+    },
+    "playlist-1": {
+      "suggested_key": {
+        "default": "Ctrl+Alt+1"
+      },
+      "description": "Play playlist 1"
+    },
+    "playlist-2": {
+      "suggested_key": {
+        "default": "Ctrl+Alt+2"
+      },
+      "description": "Play playlist 2"
+    },
+    "playlist-3": {
+      "suggested_key": {
+        "default": "Ctrl+Alt+3"
+      },
+      "description": "Play playlist 3"
+    },
+    "playlist-4": {
+      "suggested_key": {
+        "default": "Ctrl+Alt+4"
+      },
+      "description": "Play playlist 4"
+    },
+    "playlist-5": {
+      "suggested_key": {
+        "default": "Ctrl+Alt+5"
+      },
+      "description": "Play playlist 5"
+    },
+    "playlist-6": {
+      "suggested_key": {
+        "default": "Ctrl+Alt+6"
+      },
+      "description": "Play playlist 6"
+    },
+    "playlist-7": {
+      "suggested_key": {
+        "default": "Ctrl+Alt+7"
+      },
+      "description": "Play playlist 7"
+    },
+    "playlist-8": {
+      "suggested_key": {
+        "default": "Ctrl+Alt+8"
+      },
+      "description": "Play playlist 8"
+    },
+    "playlist-9": {
+      "suggested_key": {
+        "default": "Ctrl+Alt+9"
+      },
+      "description": "Play playlist 9"
+    }
   }
 }
