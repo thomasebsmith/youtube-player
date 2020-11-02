@@ -22,9 +22,9 @@ Unfortunately, the add-on must be reloaded every time the browser is restarted.
 ## Backing Up Your Playlists
 A full backup solution is planned for v0.4. However, for now, all playlists
 and settings can be backed up by going to YouTube Player > Manage Extension >
-Preferences. Then, press Ctrl+Opt+k (or Cmd+Opt+k on MacOS). In the console,
-type `getBackup().then(x => console.warn(x))`. Then, copy the output
-highlighted in yellow. To restore this backup, type
+Preferences. Then, press `Ctrl`+`Shift`+`I` (or `Cmd`+`Opt`+`I` on MacOS).
+In the console, type `getBackup().then(x => console.warn(x))`.
+Then, copy the output highlighted in yellow. To restore this backup, type
 ``useBackup(`[paste backup here]`)`` in the console.
 
 Note: this is only recommended for advanced users.
