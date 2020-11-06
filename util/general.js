@@ -55,8 +55,41 @@
     return Object.prototype.hasOwnProperty.call(obj, prop);
   };
 
+  const migrationPropName = "__migrationVersion__";
+  
+  // Migrates obj from its current version to the latest possible version
+  // using migrator.
+  //
+  // migrator should be an object of the form: {
+  //   null: (object, version) => [newObject, newVersion],
+  //   [oldVersion]: (object, version) => [newObject, newVersion],
+  //   ...
+  // }
+  //
+  // migrate will run migrator[version] until migrator does not
+  // have a currentVersion property, updating version newVersion as it goes.
+  //
+  // Note that the version defaults to null, so migrator[null] is always run
+  // first for objects that have never been migrated and have no migration
+  // version.
+  //
+  // Migration version is stored as obj[migrationPropName].
+  const migrate = (migrator, obj) => {
+    let version = null;
+    if (hasProp(obj, migrationPropName)) {
+      version = obj[migrationPropName];
+    }
+    while (hasProp(migrator, version)) {
+      [obj, version] = migrator[version](obj, version);
+      obj[migrationPropName] = version;
+    }
+    return [obj, version];
+  };
+  migrate.propName = migrationPropName;
+
   global.utils = {
     deepEqual,
     hasProp,
+    migrate,
   };
 })(this);
