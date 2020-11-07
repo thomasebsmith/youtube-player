@@ -76,7 +76,8 @@
   // Migration version is stored as obj[migrationPropName].
   const migrate = (migrator, obj) => {
     let version = null;
-    if (hasProp(obj, migrationPropName)) {
+    if (hasProp(obj, migrationPropName) &&
+        obj[migrationPropName] !== undefined) {
       version = obj[migrationPropName];
     }
     while (hasProp(migrator, version)) {

@@ -79,12 +79,14 @@
         playlist: this.playlist.toObject(),
         indices: this.indices.slice(),
         index: this.index,
+        __migrationVersion__: this.__migrationVersion__,
       };
     }
     static fromObject(obj) {
       const result =
         new PlaylistStatus(Playlist.fromObject(obj.playlist), obj.indices);
       result.index = obj.index;
+      result.__migrationVersion__ = obj.__migrationVersion__;
       return result;
     }
   }
@@ -120,17 +122,20 @@
       return this.list[index];
     }
     static fromObject(obj) {
-      return new Playlist(
+      const result = new Playlist(
         obj.list.map(global.Video.fromObject),
         obj.name || Playlist.defaultName,
-        obj.preference || Playlist.defaultPreference
+        obj.preference || Playlist.defaultPreference,
       );
+      result.__migrationVersion__ = obj.__migrationVersion__;
+      return result;
     }
     toObject() {
       return {
         list: this.list.map(video => video.toObject()),
         name: this.name,
-        preference: this.preference
+        preference: this.preference,
+        __migrationVersion__: this.__migrationVersion__,
       };
     }
     byPreference() {

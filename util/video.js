@@ -44,7 +44,8 @@
       return {
         name: this.name,
         description: this.description,
-        id: this.id
+        id: this.id,
+        __migrationVersion__: this.__migrationVersion__,
       };
     }
     equals(otherVideo) {
