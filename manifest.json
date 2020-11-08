@@ -32,7 +32,7 @@
   "content_scripts": [
     {
       "matches": ["https://www.youtube.com/*"],
-      "js": ["util/video.js", "util/playlist.js"],
+      "js": ["util/general.js", "util/video.js", "util/playlist.js"],
       "css": ["content/styles.css"]
     }
   ],
