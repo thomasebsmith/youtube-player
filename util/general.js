@@ -9,6 +9,8 @@
   // and return true if they are equal, false if they are not equal, or null
   // if they should instead be compared using deep equality.
   const deepEqual = (obj1, obj2, compare = null) => {
+    // If a `compare` function is provided, use it.
+    // Note: This structure or similar is needed since compare may return null.
     if (typeof compare === "function") {
       switch (compare(obj1, obj2)) {
         case true:
@@ -19,10 +21,13 @@
           break;
       }
     }
+
+    // Equal objects must have the same type.
     if (typeof obj1 !== typeof obj2) {
       return false;
     }
 
+    // Array comparison //
     if (global.Array.isArray(obj1)) {
       if (!global.Array.isArray(obj2) || obj1.length !== obj2.length) {
         return false;
@@ -34,6 +39,7 @@
       }
       return true;
     }
+    // Regular object comparison //
     else if (typeof obj1 === "object") {
       const keysObj1 = Object.keys(obj1);
       const keysObj2 = Object.keys(obj2);
@@ -46,6 +52,7 @@
       }
       return true;
     }
+    // Primitive value comparison //
     else {
       return obj1 === obj2;
     }
