@@ -62,6 +62,18 @@
     return Object.prototype.hasOwnProperty.call(obj, prop);
   };
 
+  const assert = (check, message = null) => {
+    if (!check) {
+      if (message === null) {
+        message = "Assertion failed.";
+      }
+      else {
+        message = "Assertion failed: " + message;
+      }
+      throw new Error(message);
+    }
+  };
+
   const migrationPropName = "__migrationVersion__";
   
   // Migrates obj from its current version to the latest possible version
@@ -96,6 +108,7 @@
   migrate.propName = migrationPropName;
 
   global.utils = {
+    assert,
     deepEqual,
     hasProp,
     migrate,
