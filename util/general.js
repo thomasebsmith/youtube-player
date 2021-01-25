@@ -62,6 +62,8 @@
     return Object.prototype.hasOwnProperty.call(obj, prop);
   };
 
+  // Checks that check is truthy. If it is not, throws an Error. The error
+  // contains message.toString() if message is not null.
   const assert = (check, message = null) => {
     if (!check) {
       if (message === null) {
