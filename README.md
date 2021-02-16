@@ -29,6 +29,10 @@ Then, copy the output highlighted in yellow. To restore this backup, type
 
 Note: this is only recommended for advanced users.
 
+## License
+YouTube Player is licensed under the MIT license. See [LICENSE](./LICENSE) for
+details.
+
 ## Version History
 ##### v0.1
  - Ability to create YouTube playlists
