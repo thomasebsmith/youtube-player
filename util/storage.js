@@ -49,9 +49,26 @@
   };
   const addToPlaylist = (index, video) => {
     return getPlaylists().then((playlists) => {
+      if (index >= playlists.length) {
+        throw Error("addToPlaylist index out-of-bounds");
+      }
       playlists[index].list.push(video);
       return updateStorage();
     });
+  };
+  const addToPossiblyNewPlaylist = (index, video) => {
+    return Promise.all([getPlaylists(), retrieveOptions()]).then(
+      ([playlists, options]) => {
+        if (index === playlists.length) {
+          playlists.push(new Playlist([], "New playlist", options.playback));
+        }
+        if (index >= playlists.length) {
+          throw Error("addToPossiblyNewPlaylist index out-of-bounds");
+        }
+        playlists[index].list.push(video);
+        return updateStorage();
+      }
+    );
   };
   const getPlaylists = () => {
     if (playlists === null) {
@@ -89,6 +106,7 @@
 
   global.storage = {
     addToPlaylist: addToPlaylist,
+    addToPossiblyNewPlaylist: addToPossiblyNewPlaylist,
     getOptions: getOptions,
     getPlaylists: getPlaylists,
     onPlaylistUpdate: onPlaylistUpdate,

@@ -25,7 +25,7 @@ addEl.addEventListener("click", () => {
     return;
   }
 
-  storage.addToPlaylist(
+  storage.addToPossiblyNewPlaylist(
     playlistToAddTo,
     new Video(nameToAdd, descToAdd, idToAdd)
   ).then(() => {
